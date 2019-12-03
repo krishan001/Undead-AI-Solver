@@ -65,14 +65,6 @@ def topCols(matrix, numRows, numCols):
 
 
 def createPaths(matrix):
-    
-    pass
-
-def main():
-    matrix = [[1,2,"\\",4],
-              [5,6,7,8],
-              [9,"\\",11,12],
-              [13,14,15,16]]
     numRows = len(matrix)
     numCols = len(matrix[0])
     topPaths = topCols(matrix, numRows, numCols)
@@ -83,6 +75,14 @@ def main():
     print("Bottom paths: ", bottomPaths)
     print("Left paths: ",leftPaths)
     print("Right paths: ",rightPaths)
+    
+
+def main():
+    matrix = [[1,2,"\\",4],
+              [5,6,7,8],
+              [9,"\\",11,12],
+              [13,14,15,16]]
+    createPaths(matrix)
 
 
 if __name__ == "__main__":
