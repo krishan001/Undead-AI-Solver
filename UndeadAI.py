@@ -52,9 +52,9 @@ def topCols(matrix, numRows, numCols):
     paths = []
     for k in range(0,numCols):
         for i in range(0,numCols):
-            if matrix[i][k] != '\\':
+            if matrix[i][k] != '\\' and matrix[i][k] != '/':
                 tmp.append(matrix[i][k])
-            else: # if it hits a backwards mirror
+            elif matrix[i][k] == '\\': # if it hits a backwards mirror
                 for j in range(k,numRows):
                     if matrix[i][j] != '\\':
                         tmp.append(matrix[i][j])
