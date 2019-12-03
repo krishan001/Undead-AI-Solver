@@ -1,68 +1,4 @@
-def leftRows(matrix, numRows, numCols):
-    tmp = []
-    paths = []
-    for k in range(0,numRows):
-        for j in range(0,numRows):
-            if matrix[k][j] != '\\':
-                tmp.append(matrix[k][j])
-            else:# if it hits a backwards mirror
-                for i in range(k,numCols):
-                    if matrix[i][j] != '\\':
-                        tmp.append( matrix[i][j])
-                break
-        paths.append(tmp)
-        tmp = []
-    return paths
-    
-def rightRows(matrix, numRows, numCols):
-    tmp = []
-    paths = []
-    for k in range(0,numRows):
-        for j in range(numRows-1,-1,-1):
-            if matrix[k][j] != '\\':
-                tmp.append(matrix[k][j])
-            else:# if it hits a backwards mirror
-                for i in range(k,-1,-1):
-                    if matrix[i][j] != '\\':
-                        tmp.append( matrix[i][j])
-                break
-        paths.append(tmp)
-        tmp = []
-    return paths
-  
-def bottomCols(matrix, numRows, numCols):
-    tmp = []
-    paths = []
-    for k in range(0,numCols):
-        for i in range(numCols-1,-1,-1):
-            if matrix[i][k] != '\\':
-                tmp.append(matrix[i][k])
-            else:# if it hits a backwards mirror
-                for j in range(k,-1,-1):
-                    if matrix[i][j] != '\\':
-                        tmp.append(matrix[i][j])
-                break
-        paths.append(tmp)
-        tmp = []
-    
-    return paths
-
-def topCols(matrix, numRows, numCols):
-    tmp = []
-    paths = []
-    for k in range(0,numCols):
-        for i in range(0,numCols):
-            if matrix[i][k] != '\\' and matrix[i][k] != '/':
-                tmp.append(matrix[i][k])
-            elif matrix[i][k] == '\\': # if it hits a backwards mirror
-                for j in range(k,numRows):
-                    if matrix[i][j] != '\\':
-                        tmp.append(matrix[i][j])
-                break
-        paths.append(tmp)
-        tmp = []
-    return paths
-
+from paths import *
 
 def createPaths(matrix):
     numRows = len(matrix)
@@ -71,10 +7,10 @@ def createPaths(matrix):
     bottomPaths = bottomCols(matrix,numRows,numCols)
     leftPaths = leftRows(matrix, numRows, numCols)
     rightPaths = rightRows(matrix,numRows,numCols)
-    print("top paths: ", topPaths)
-    print("Bottom paths: ", bottomPaths)
-    print("Left paths: ",leftPaths)
-    print("Right paths: ",rightPaths)
+    print("Top paths: ", topPaths, "\n")
+    print("Bottom paths: ", bottomPaths,"\n")
+    print("Left paths: ",leftPaths,"\n")
+    print("Right paths: ",rightPaths,"\n")
     
 
 def main():
