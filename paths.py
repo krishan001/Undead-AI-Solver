@@ -2,7 +2,7 @@ def leftRows(matrix, numRows, numCols):
     tmp = []
     paths = {}
     labels = ["L1", "L2", "L3", "L4"]
-    
+
     for k in range(0,numRows):
         for j in range(0,numRows):
             if matrix[k][j] != '\\':
@@ -52,6 +52,7 @@ def bottomCols(matrix, numRows, numCols):
     return paths
 
 def topCols(matrix, numRows, numCols):
+
     tmp = []
     paths = {}
     labels = ["T1", "T2", "T3", "T4"]
@@ -68,3 +69,4 @@ def topCols(matrix, numRows, numCols):
         tmp = []
 
     return paths
+
