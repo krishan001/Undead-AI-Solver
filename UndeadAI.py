@@ -4,14 +4,14 @@ from tracePath import trace_path
 def createPaths2(matrix):
     numRows = len(matrix)
     numCols = len(matrix[0])
-    # lp = leftPaths(matrix, numRows, numCols)
-    # print("Left paths: ",lp,"\n")
-    # rp = rightPaths(matrix, numRows, numCols)
-    # print("Right paths: ",rp,"\n")
+    lp = leftPaths(matrix, numRows, numCols)
+    print("Left paths: ",lp,"\n")
+    rp = rightPaths(matrix, numRows, numCols)
+    print("Right paths: ",rp,"\n")
     up = upPaths(matrix, numRows, numCols)
     print("Top paths: ", up, "\n")
-    # dp = downPaths(matrix, numRows, numCols)
-    # print("Bottom paths: ", dp,"\n")
+    dp = downPaths(matrix, numRows, numCols)
+    print("Bottom paths: ", dp,"\n")
 
 def leftPaths(matrix, numRows, numCols):
     paths = {}
