@@ -22,12 +22,11 @@ def main():
     numRows = len(matrix)
     numCols = len(matrix[0])
     #print all downwards paths
-    # for i in range(0,4):
+    for i in range(0,4):
     #     trace_path(matrix, i, 0, 2, numRows, numCols)
-    #     # print(path)
-    #     path[:] = []
-    p = trace_path(matrix, 0, 0, 2, numRows, numCols)
-    print("p: ",p)
+
+        p = trace_path(matrix, i, 0, 2, numRows, numCols)
+        print("p: ",p)
 
 
 if __name__ == "__main__":
