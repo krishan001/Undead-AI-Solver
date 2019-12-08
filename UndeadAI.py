@@ -1,7 +1,7 @@
 
 from tracePath import trace_path
 
-def createPaths2(matrix):
+def createPaths(matrix):
     numRows = len(matrix)
     numCols = len(matrix[0])
     lp = leftPaths(matrix, numRows, numCols)
@@ -46,7 +46,7 @@ def main():
               [5    ,6    ,7    ,8],
               [9    ,"\\" ,11   ,'\\'],
               ['\\' ,14   ,15   ,'/']]
-    createPaths2(matrix)
+    createPaths(matrix)
 
 
 if __name__ == "__main__":
