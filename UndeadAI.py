@@ -19,16 +19,17 @@ def trace_path(matrix, x, y, direction, numRows, numCols):
     if direction == 0:
         #iterate to upwards
         while(x < numCols and y < numRows and x >=0 and y>=0): #in the bounds of the matrix
+            print(matrix[y][x])
             if matrix[y][x] != '\\' and matrix[y][x] != '/':
                 #add the square to the path
                 # if matrix[y-1][x] is not None:
-                if y-1 >= 0:
+                if y-1 >=-1:
                     path.append(matrix[y][x])
                 else: return path
             elif matrix[y][x] == '\\':
                 # recursively call it with a direction to the left
                 # if matrix[y][x-1] is not None:
-                if x-1 >=0:
+                if x-1 >=-1:
                     return path.append(trace_path(matrix,x-1,y,3,numRows, numCols))
                 else:
                     return path
@@ -58,7 +59,7 @@ def trace_path(matrix, x, y, direction, numRows, numCols):
                 else: return path
             elif matrix[y][x] == '/':
                 # if matrix[y-1][x] is not None:
-                if y-1 >= 0:
+                if y-1 >= -1:
                     return path.append(trace_path(matrix,x,y-1,0,numRows, numCols))
                 else: return path
             x+=1
@@ -82,7 +83,7 @@ def trace_path(matrix, x, y, direction, numRows, numCols):
                     return path
             elif matrix[y][x] == '/':
                 # if matrix[y][x-1] is not None:
-                if x-1 >=0:
+                if x-1 >=-1:
                     return path.append(trace_path(matrix,x-1,y,3,numRows, numCols))
                 else: return path
             y+=1
@@ -98,12 +99,14 @@ def trace_path(matrix, x, y, direction, numRows, numCols):
                 path.append(matrix[y][x])
             elif matrix[y][x] == '\\':
                 # recursively call it with a direction upwards
-                if matrix[y-1][x] is not None:
+                # if matrix[y-1][x] is not None:
+                if y-1 >= -1:
                     return path.append(trace_path(matrix,x,y-1,0,numRows, numCols))
                 else: return path
 
             elif matrix[y][x] == '/':
-                if matrix[y+1][x] is not None:
+                # if matrix[y+1][x] is not None:
+                if y+1 <numRows:
                     return path.append(trace_path(matrix,x,y+1,2,numRows, numCols))
                 else: return path
 
@@ -121,10 +124,12 @@ def main():
     numRows = len(matrix)
     numCols = len(matrix[0])
     #print all downwards paths
-    for i in range(0,4):
-        trace_path(matrix, i, 0, 2, numRows, numCols)
-        print(path)
-        path[:] = []
+    # for i in range(0,4):
+    #     trace_path(matrix, i, 0, 2, numRows, numCols)
+    #     # print(path)
+    #     path[:] = []
+    trace_path(matrix, 0, 0, 2, numRows, numCols)
+    print(path)
 
 
 if __name__ == "__main__":
