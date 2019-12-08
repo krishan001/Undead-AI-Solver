@@ -26,8 +26,8 @@ def main():
     #     trace_path(matrix, i, 0, 2, numRows, numCols)
     #     # print(path)
     #     path[:] = []
-    p = trace_path2(matrix, 0, 0, 2, numRows, numCols)
-    print(p)
+    p = trace_path(matrix, 0, 0, 2, numRows, numCols)
+    print("p: ",p)
 
 
 if __name__ == "__main__":
