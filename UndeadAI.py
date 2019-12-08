@@ -1,5 +1,5 @@
 from paths import *
-from tracePath import *
+from tracePath import trace_path
 def createPaths(matrix):
     numRows = len(matrix)
     numCols = len(matrix[0])
@@ -23,8 +23,6 @@ def main():
     numCols = len(matrix[0])
     #print all downwards paths
     for i in range(0,4):
-    #     trace_path(matrix, i, 0, 2, numRows, numCols)
-
         p = trace_path(matrix, i, 0, 2, numRows, numCols)
         print("p: ",p)
 
