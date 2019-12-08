@@ -1,4 +1,5 @@
 mirrors = False
+
 def trace_path(matrix, x, y, d, numRows, numCols, path = None):
     # 0 = up, 1 = right, 2 = down, 3 = left
     if path == None:
