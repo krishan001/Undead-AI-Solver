@@ -113,10 +113,10 @@ def trace_path(matrix, x, y, direction, numRows, numCols):
 
 
 def main():
-    matrix = [[1,2,"\\",4],
-              [5,6,7,8],
-              [9,"\\",11,'\\'],
-              ['\\',14,15,'/']]
+    matrix = [[1    ,2    ,"\\" ,4],
+              [5    ,6    ,7    ,8],
+              [9    ,"\\" ,11   ,'\\'],
+              ['\\' ,14   ,15   ,'/']]
     # createPaths(matrix)
     numRows = len(matrix)
     numCols = len(matrix[0])
