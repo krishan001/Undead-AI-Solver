@@ -49,5 +49,5 @@ def trace_path(matrix, x, y, d, numRows, numCols, path = None):
                 y+=1
             if d == 3:
                 x-=1
-    print("Path: ",path)
+    print("Path from function: ",path)
     return path

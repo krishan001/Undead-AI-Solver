@@ -41,13 +41,26 @@ def downPaths(matrix,numRows,numCols):
         paths[labels[i]] = trace_path(matrix, i, 0, 2, numRows, numCols)
     return paths
 
+def count_vis(path):
+    pastMirror = False
+    numVis = 0
+    for x in path:
+        if x == '/' or x == '\\':
+            pastMirror = True
+        if pastMirror == False and (x == 'v' or x == 'z'):
+            numVis += 1
+        if pastMirror == True and (x == 'g' or x == 'z'):
+            numVis += 1
+    
+    return numVis
 def main():
     matrix = [[1    ,2    ,3 ,4],
               [5    ,6    ,7    ,8],
               [9    ,"\\" ,11   ,'\\'],
               ['\\' ,14   ,15   ,'/']]
-    createPaths(matrix)
-
+    # createPaths(matrix)
+    testPath = ['z','g','v','\\','v', 'z','/','g']
+    print(count_vis(testPath))
 
 if __name__ == "__main__":
     main()
