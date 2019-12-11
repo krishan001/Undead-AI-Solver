@@ -4,14 +4,14 @@ from tracePath import trace_path
 def createPaths(matrix):
     numRows = len(matrix)
     numCols = len(matrix[0])
-    lp = leftPaths(matrix, numRows, numCols)
-    print("Left paths: ",lp,"\n")
     rp = rightPaths(matrix, numRows, numCols)
     print("Right paths: ",rp,"\n")
+    lp = leftPaths(matrix, numRows, numCols)
+    print("Left paths: ",lp,"\n")
     up = upPaths(matrix, numRows, numCols)
-    print("Top paths: ", up, "\n")
+    print("Upwards paths: ", up, "\n")
     dp = downPaths(matrix, numRows, numCols)
-    print("Bottom paths: ", dp,"\n")
+    print("Downwards paths: ", dp,"\n")
 
 def leftPaths(matrix, numRows, numCols):
     paths = {}
@@ -54,11 +54,11 @@ def count_vis(path):
     
     return numVis
 def main():
-    matrix = [[1    ,2    ,3 ,4],
+    matrix = [[1    ,2    ,3    ,4],
               [5    ,6    ,7    ,8],
               [9    ,"\\" ,11   ,'\\'],
               ['\\' ,14   ,15   ,'/']]
-    # createPaths(matrix)
+    createPaths(matrix)
     testPath = ['z','g','v','\\','v', 'z','/','g']
     print(count_vis(testPath))
 

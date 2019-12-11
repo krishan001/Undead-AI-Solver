@@ -1,9 +1,8 @@
-mirrors = True
+mirrors = False
 
-def trace_path(matrix, x, y, d, numRows, numCols, path = None):
+def trace_path(matrix, x, y, d, numRows, numCols):
     # 0 = up, 1 = right, 2 = down, 3 = left
-    if path == None:
-        path = []
+    path = []
     
     while(x < numCols and y < numRows and x >=0 and y>=0): # In the bounds of the matrix
         # if statements to figure out the new direction and x,y coords if the traversal hits a mirror
@@ -15,7 +14,8 @@ def trace_path(matrix, x, y, d, numRows, numCols, path = None):
                 path.append(matrix[y][x])
             d = 1
             x+=1
-            return path.append(trace_path(matrix, x, y, d, numRows, numCols, path))
+            path.extend(trace_path(matrix, x, y, d, numRows, numCols))
+            return path
 
         # Turn upwards
         elif (matrix[y][x] == "/" and d == 1) or (matrix[y][x] == "\\" and d == 3):
@@ -23,21 +23,25 @@ def trace_path(matrix, x, y, d, numRows, numCols, path = None):
                 path.append(matrix[y][x])
             d = 0
             y-=1
-            return path.append(trace_path(matrix, x, y, d, numRows, numCols, path))
+            
+            path.extend(trace_path(matrix, x, y, d, numRows, numCols))
+            return path
         # Turn to the left
         elif (matrix[y][x] == "/" and d == 2) or (matrix[y][x] == "\\" and d == 0):
             if mirrors:
                 path.append(matrix[y][x])
             d = 3
             x-=1
-            return path.append(trace_path(matrix, x, y, d, numRows, numCols, path))
+            path.extend(trace_path(matrix, x, y, d, numRows, numCols))
+            return path
         # Turn downwards
         elif (matrix[y][x] == "/" and d == 3) or (matrix[y][x] == "\\" and d == 1):
             if mirrors:
                 path.append(matrix[y][x])
             d = 2
             y+=1
-            return path.append(trace_path(matrix, x, y, d, numRows, numCols, path))
+            path.extend(trace_path(matrix, x, y, d, numRows, numCols))
+            return path
         else:
             # If it doesn't hit a mirror then add it to the path
             path.append(matrix[y][x])
@@ -49,5 +53,4 @@ def trace_path(matrix, x, y, d, numRows, numCols, path = None):
                 y+=1
             if d == 3:
                 x-=1
-    print("Path from function: ",path)
     return path
