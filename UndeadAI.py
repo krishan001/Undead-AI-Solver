@@ -64,3 +64,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# talk about 8 queens or 15 puzzle or knights priblem
+
