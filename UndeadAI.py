@@ -53,17 +53,43 @@ def count_vis(path):
             numVis += 1
     
     return numVis
+def readBoard(file, numLines):
+    gridstring = []
+    grid = [[]] * 4
+    with open(file) as f:
+        strings = [f.readline()[0:-1] for x in range(numLines)]
+ 
+    for s in strings:
+        for i in range(0,4):
+            grid[i] = list(s[:4])
+            s = s[4:]
+    
+    
+    return grid
 def main():
-    matrix = [[1    ,2    ,3    ,4],
-              [5    ,6    ,7    ,8],
-              [9    ,"\\" ,11   ,'\\'],
-              ['\\' ,14   ,15   ,'/']]
+    # matrix = [[1    ,2    ,3    ,4],
+    #           [5    ,6    ,7    ,8],
+    #           [9    ,"\\" ,11   ,'\\'],
+    #           ['\\' ,14   ,15   ,'/']]
+    # print(matrix)
+    matrix = readBoard("board.txt", 1)
     createPaths(matrix)
     testPath = ['z','g','v','\\','v', 'z','/','g']
-    print(count_vis(testPath))
+    print("counting visible: ",count_vis(testPath))
+    # print("reading board: ",readBoard("board.txt", 1))
 
 if __name__ == "__main__":
     main()
 
 # talk about 8 queens or 15 puzzle or knights priblem
 
+'''
+TODO:
+* Read in board from text file
+* Read in number visible
+* Create test file
+* fill in board with brute force
+* check solved
+* record time for solve
+* then do depth first etc and record times
+'''
