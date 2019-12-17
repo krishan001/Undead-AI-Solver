@@ -12,13 +12,15 @@ def createPaths(matrix, vis):
         exit()
     
     rp = rightPaths(matrix, dim)
-    print("Right paths: ",rp,"\n")
     lp = leftPaths(matrix, dim)
-    print("Left paths: ",lp,"\n")
     up = upPaths(matrix, dim)
-    print("Upwards paths: ", up, "\n")
     dp = downPaths(matrix, dim)
+
+    print("Right paths: ",rp,"\n")
+    print("Left paths: ",lp,"\n")
+    print("Upwards paths: ", up, "\n")
     print("D1 paths: ", dp["D1"],"\n")
+
     checkVisible(rp,lp,up,dp,vis)
 
 def checkVisible(rp,lp,up,dp,vis):
@@ -87,7 +89,7 @@ def readBoard(file, numLines, dim):
             grid[i] = list(s[:dim])
             s = s[dim:]
     # visDict = dict(zip(l,vis))
-    print(vis, "\n")
+    # print(vis, "\n")
     
     
     return grid, vis
