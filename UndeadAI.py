@@ -5,7 +5,7 @@ def isSquare (matrix):
     return all (len (row) == len (matrix) for row in matrix)
 
 def createPaths(matrix, vis):
-    if isSquare(matrix): # this doesn't work because only checking the first column
+    if isSquare(matrix): 
         dim = len(matrix)
     else:
         print("matrix is not square therefore invalid")
