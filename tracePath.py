@@ -27,18 +27,18 @@ def createPaths(matrix, vis):
 def checkVisible(rp,lp,up,dp,vis):
     foundVis = []
     for x in dp.values():
-        foundVis.append(count_vis(x))
+        foundVis.append(countVis(x))
     for x in lp.values():
-        foundVis.append(count_vis(x))
+        foundVis.append(countVis(x))
     for x in up.values():
-        foundVis.append(count_vis(x))
+        foundVis.append(countVis(x))
     for x in rp.values():
-        foundVis.append(count_vis(x))
+        foundVis.append(countVis(x))
 
     print("If the paths view the correct number:", foundVis == vis)
 
 
-def count_vis(path):
+def countVis(path):
     # Given a path, figure out how many monsters you can see
     pastMirror = False
     numVis = 0
@@ -57,7 +57,7 @@ def leftPaths(matrix, dim):
     paths = {}
     labels = ["L1", "L2", "L3", "L4"]
     for i in range(0,dim):
-        paths[labels[i]] = trace_path(matrix,dim-1, i, 3, dim)
+        paths[labels[i]] = tracePath(matrix,dim-1, i, 3, dim)
     return paths
 
 def rightPaths(matrix,dim):
@@ -65,7 +65,7 @@ def rightPaths(matrix,dim):
     paths = {}
     labels = ["R1", "R2", "R3", "R4"]
     for i in range(0,dim):
-        paths[labels[i]] = trace_path(matrix, 0, i, 1, dim)
+        paths[labels[i]] = tracePath(matrix, 0, i, 1, dim)
     return paths
 
 def upPaths(matrix, dim):
@@ -73,7 +73,7 @@ def upPaths(matrix, dim):
     paths = {}
     labels = ["U1", "U2", "U3", "U4"]
     for i in range(0,dim):
-        paths[labels[i]] = trace_path(matrix, i, dim -1, 0, dim)
+        paths[labels[i]] = tracePath(matrix, i, dim -1, 0, dim)
     return paths
 
 def downPaths(matrix,dim):
@@ -81,10 +81,10 @@ def downPaths(matrix,dim):
     paths = {}
     labels = ["D1", "D2", "D3", "D4"]
     for i in range(0,dim):
-        paths[labels[i]] = trace_path(matrix, i, 0, 2, dim)
+        paths[labels[i]] = tracePath(matrix, i, 0, 2, dim)
     return paths
 
-def trace_path(matrix, x, y, d, dim):
+def tracePath(matrix, x, y, d, dim):
     # 0 = up, 1 = right, 2 = down, 3 = left
     path = []
     
@@ -98,7 +98,7 @@ def trace_path(matrix, x, y, d, dim):
                 path.append(matrix[y][x])
             d = 1
             x+=1
-            path.extend(trace_path(matrix, x, y, d, dim))
+            path.extend(tracePath(matrix, x, y, d, dim))
             return path
 
         # Turn upwards
@@ -108,7 +108,7 @@ def trace_path(matrix, x, y, d, dim):
             d = 0
             y-=1
             
-            path.extend(trace_path(matrix, x, y, d, dim))
+            path.extend(tracePath(matrix, x, y, d, dim))
             return path
         # Turn to the left
         elif (matrix[y][x] == "/" and d == 2) or (matrix[y][x] == "\\" and d == 0):
@@ -116,7 +116,7 @@ def trace_path(matrix, x, y, d, dim):
                 path.append(matrix[y][x])
             d = 3
             x-=1
-            path.extend(trace_path(matrix, x, y, d, dim))
+            path.extend(tracePath(matrix, x, y, d, dim))
             return path
         # Turn downwards
         elif (matrix[y][x] == "/" and d == 3) or (matrix[y][x] == "\\" and d == 1):
@@ -124,7 +124,7 @@ def trace_path(matrix, x, y, d, dim):
                 path.append(matrix[y][x])
             d = 2
             y+=1
-            path.extend(trace_path(matrix, x, y, d, dim))
+            path.extend(tracePath(matrix, x, y, d, dim))
             return path
         else:
             # If it doesn't hit a mirror then add it to the path
