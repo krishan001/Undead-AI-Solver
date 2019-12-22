@@ -1,4 +1,88 @@
+
 mirrors = True
+
+def isSquare (matrix): #Check that it is a square matrix
+    return all (len (row) == len (matrix) for row in matrix)
+
+def createPaths(matrix, vis):
+    if isSquare(matrix): 
+        dim = len(matrix)
+    else:
+        print("matrix is not square therefore invalid")
+        exit()
+    # Generate paths for all directions
+    rp = rightPaths(matrix, dim)
+    lp = leftPaths(matrix, dim)
+    up = upPaths(matrix, dim)
+    dp = downPaths(matrix, dim)
+
+    print("Right paths: ",rp,"\n")
+    print("Left paths: ",lp,"\n")
+    print("Upwards paths: ", up, "\n")
+    print("D1 paths: ", dp["D1"],"\n")
+
+    # Check that the number visible constraint is satisfied
+    checkVisible(rp,lp,up,dp,vis)
+
+def checkVisible(rp,lp,up,dp,vis):
+    foundVis = []
+    for x in dp.values():
+        foundVis.append(count_vis(x))
+    for x in lp.values():
+        foundVis.append(count_vis(x))
+    for x in up.values():
+        foundVis.append(count_vis(x))
+    for x in rp.values():
+        foundVis.append(count_vis(x))
+
+    print("If the paths view the correct number:", foundVis == vis)
+
+
+def count_vis(path):
+    # Given a path, figure out how many monsters you can see
+    pastMirror = False
+    numVis = 0
+    for x in path:
+        if x == '/' or x == '\\':
+            pastMirror = True
+        if pastMirror == False and (x == 'v' or x == 'z'):
+            numVis += 1
+        if pastMirror == True and (x == 'g' or x == 'z'):
+            numVis += 1
+    
+    return numVis
+
+def leftPaths(matrix, dim):
+    # Generate left paths and add to dictionary
+    paths = {}
+    labels = ["L1", "L2", "L3", "L4"]
+    for i in range(0,dim):
+        paths[labels[i]] = trace_path(matrix,dim-1, i, 3, dim)
+    return paths
+
+def rightPaths(matrix,dim):
+    # Generate right paths and add to dictionary
+    paths = {}
+    labels = ["R1", "R2", "R3", "R4"]
+    for i in range(0,dim):
+        paths[labels[i]] = trace_path(matrix, 0, i, 1, dim)
+    return paths
+
+def upPaths(matrix, dim):
+    # Generate upwards paths and add to dictionary
+    paths = {}
+    labels = ["U1", "U2", "U3", "U4"]
+    for i in range(0,dim):
+        paths[labels[i]] = trace_path(matrix, i, dim -1, 0, dim)
+    return paths
+
+def downPaths(matrix,dim):
+    # Generate downwards paths and add to dictionary
+    paths = {}
+    labels = ["D1", "D2", "D3", "D4"]
+    for i in range(0,dim):
+        paths[labels[i]] = trace_path(matrix, i, 0, 2, dim)
+    return paths
 
 def trace_path(matrix, x, y, d, dim):
     # 0 = up, 1 = right, 2 = down, 3 = left
