@@ -34,6 +34,7 @@ if __name__ == "__main__":
 '''
 TODO:
 * Create test file
+* Object for each square with value so can cross reference across paths
 * fill in board with brute force
 * check solved
 * record time for solve
