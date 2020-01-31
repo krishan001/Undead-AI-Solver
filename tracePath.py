@@ -35,7 +35,7 @@ def checkVisible(rp,lp,up,dp,vis):
     for x in rp.values():
         foundVis.append(countVis(x))
 
-    print("If the paths view the correct number:", foundVis == vis)
+    print("Paths view the correct number:", foundVis == vis)
 
 def countVis(path):
     # Given a path, figure out how many monsters you can see
