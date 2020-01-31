@@ -18,12 +18,49 @@ def readBoard(file, numLines, dim):
 
     
     return grid, vis
+def uni(s):
+    return chr(int(s,16))
 
+def fancy_grid_line(start,norm,lcross,hcross,end):
+      start,norm,lcross,hcross,end = ( uni(start),uni(norm),
+                                       uni(lcross),uni(hcross),uni(end))
+      return ( start +
+               ((norm*3 + lcross)
+                   + norm*3 + hcross)
+                   + (norm*3 + lcross)
+                   + norm*3  + end )
+
+TOP_LINE       = fancy_grid_line( '2554', '2550', '2564', '2566', '2557' )
+THIN_MID_LINE  = fancy_grid_line( '255f', '2500', '253c', '256b', '2562' )
+BOTTOM_LINE    = fancy_grid_line( '255a', '2550', '2567', '2569', '255d' )
+
+def printBoard(grid, vis,dim):
+    dvbar = uni('2551')
+    indent = "   "
+    print(indent, end="")
+    for i in range(0,dim):
+        print("  " +str(vis[i])+ " ", end = "")
+    print( "\n"+ indent + TOP_LINE )
+    count = 0
+    for row in grid:
+        count +=1
+        print( str(vis[count-1+dim*3])+ "  " + dvbar, end ="")
+        for c in row:
+            print(" " +c + " " + dvbar, end="")
+        if count == 4:
+            print(" " +str(vis[count-1+dim])+"\n" + indent+BOTTOM_LINE)
+        else:
+            print(" "+ str(vis[count-1+dim])+"\n" +indent+THIN_MID_LINE)
+    print(indent, end = "")
+    for i in range(0,dim):
+        print("  " +str(vis[i+dim*2])+ " ", end = "")
+    print("\n")
 def main():
     # define the dimentions of the board
     dim = 4
     matrix, vis = readBoard("board.txt", 1, dim)
-    createPaths(matrix,vis)
+    printBoard(matrix,vis, dim)
+    # createPaths(matrix,vis)
 
 
 if __name__ == "__main__":
