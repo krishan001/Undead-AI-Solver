@@ -37,7 +37,6 @@ MID_LINE  = fancy_grid_line( '2560', '2550', '256c', '256c', '2563' )
 BOTTOM_LINE    = fancy_grid_line( '255a', '2550', '2569', '2569', '255d' )
 
 def printBoard(grid, vis, dim, numGhosts, numVampires,numZombies):
-    print(uni("2550"))
     # vertical bar
     dvbar = uni('2551')
     
@@ -73,7 +72,8 @@ def main():
     dim = 4
     matrix, vis, numGhosts, numVampires,numZombies = readBoard("board.txt", 1, dim)
     printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
-    bruteForce(matrix,vis, dim, numGhosts, numVampires,numZombies)
+    solvedMatrix = bruteForce(matrix,vis, dim, numGhosts, numVampires,numZombies)
+    printBoard(solvedMatrix,vis, dim, numGhosts, numVampires,numZombies)
 
 
 if __name__ == "__main__":
