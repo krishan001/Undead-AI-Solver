@@ -54,7 +54,7 @@ def countVis(path):
 def leftPaths(matrix, dim):
     # Generate left paths and add to dictionary
     paths = {}
-    labels = ["L1", "L2", "L3", "L4"]
+    labels = ["L1", "L2", "L3", "L4", "L5"]
     for i in range(0,dim):
         paths[labels[i]] = tracePath(matrix,dim-1, i, 3, dim)
     return paths
@@ -62,7 +62,7 @@ def leftPaths(matrix, dim):
 def rightPaths(matrix,dim):
     # Generate right paths and add to dictionary
     paths = {}
-    labels = ["R1", "R2", "R3", "R4"]
+    labels = ["R1", "R2", "R3", "R4", "R5"]
     for i in range(0,dim):
         paths[labels[i]] = tracePath(matrix, 0, i, 1, dim)
     return paths
@@ -70,7 +70,7 @@ def rightPaths(matrix,dim):
 def upPaths(matrix, dim):
     # Generate upwards paths and add to dictionary
     paths = {}
-    labels = ["U1", "U2", "U3", "U4"]
+    labels = ["U1", "U2", "U3", "U4", "U5"]
     for i in range(0,dim):
         paths[labels[i]] = tracePath(matrix, i, dim -1, 0, dim)
     return paths
@@ -78,7 +78,7 @@ def upPaths(matrix, dim):
 def downPaths(matrix,dim):
     # Generate downwards paths and add to dictionary
     paths = {}
-    labels = ["D1", "D2", "D3", "D4"]
+    labels = ["D1", "D2", "D3", "D4", "D5"]
     for i in range(0,dim):
         paths[labels[i]] = tracePath(matrix, i, 0, 2, dim)
     return paths

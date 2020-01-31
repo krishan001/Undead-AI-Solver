@@ -18,7 +18,7 @@ def randomBruteForce(solvedMatrix, vis, dim, numGhosts, numVampires,numZombies):
                     if value == 3:
                         solvedMatrix[i][j] = "z"
         
-        # print(solvedMatrix)
+        print(solvedMatrix)
 
     if checkConstraints(solvedMatrix, vis, numGhosts, numVampires,numZombies):
         print("solved!")

@@ -12,9 +12,8 @@ def readBoard(file, numLines, dim):
         # take the number visible in each path and remove them from the string
         [numGhosts, numVampires,numZombies] = map(int,s[:3])
         s = s[3:]
-
-        vis = list(map(int,(s[:(dim**2)])))
-        s = s[(dim**2):]
+        vis = list(map(int,(s[:(dim*4)])))
+        s = s[(dim*4):]
         # create grid from string
         for i in range(0,dim):
             grid[i] = list(s[:dim])
@@ -22,6 +21,8 @@ def readBoard(file, numLines, dim):
 
     
     return grid, vis, numGhosts, numVampires,numZombies
+
+
 def uni(s):
     return chr(int(s,16))
 
@@ -56,7 +57,7 @@ def printBoard(grid, vis, dim, numGhosts, numVampires,numZombies):
         for c in row:
             print(" " +c + " " + dvbar, end="")
         # Print the number of visible monsters on the right
-        if count == 4:
+        if count == dim:
             print(" " +str(vis[count-1+dim])+"\n" + indent+BOTTOM_LINE)
         else:
             print(" "+ str(vis[count-1+dim])+"\n" +indent+MID_LINE)
@@ -69,7 +70,7 @@ def printBoard(grid, vis, dim, numGhosts, numVampires,numZombies):
 
 def main():
     # define the dimentions of the board
-    dim = 4
+    dim = 5
     matrix, vis, numGhosts, numVampires,numZombies = readBoard("board.txt", 1, dim)
     printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
     startTime = time.perf_counter()
