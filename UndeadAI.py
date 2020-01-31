@@ -1,7 +1,7 @@
 
 from tracePath import createPaths
-from bruteForce import bruteForce
-
+from bruteForce import randomBruteForce
+import time
    
 def readBoard(file, numLines, dim):
     # Read the board from a text file
@@ -72,8 +72,11 @@ def main():
     dim = 4
     matrix, vis, numGhosts, numVampires,numZombies = readBoard("board.txt", 1, dim)
     printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
-    solvedMatrix = bruteForce(matrix,vis, dim, numGhosts, numVampires,numZombies)
+    startTime = time.perf_counter()
+    solvedMatrix = randomBruteForce(matrix,vis, dim, numGhosts, numVampires,numZombies)
+    timeTaken = time.perf_counter() - startTime
     printBoard(solvedMatrix,vis, dim, numGhosts, numVampires,numZombies)
+    print("took  {0:.3f} seconds".format(timeTaken))
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@ from tracePath import createPaths, checkConstraints
 from random import seed
 from random import randint
 from copy import deepcopy
-def bruteForce(solvedMatrix, vis, dim, numGhosts, numVampires,numZombies):
+def randomBruteForce(solvedMatrix, vis, dim, numGhosts, numVampires,numZombies):
     seed(1)
     originalMatrix = deepcopy(solvedMatrix)
     while (checkConstraints(solvedMatrix, vis, numGhosts, numVampires,numZombies) == False):
