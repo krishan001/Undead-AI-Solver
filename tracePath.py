@@ -137,3 +137,16 @@ def tracePath(matrix, x, y, d, dim):
             if d == 3:
                 x-=1
     return path
+
+def checkConstraints(matrix, vis, numGhosts, numVampires,numZombies):
+    solvedGhosts, solvedVamps, solvedZombies = 0,0,0
+    for row in matrix:
+        for c in row:
+            if c == "g":
+                solvedGhosts += 1
+            if c == "v":
+                solvedVamps += 1
+            if c == "z":
+                solvedZombies += 1
+
+    return createPaths(matrix, vis) and solvedGhosts == numGhosts and solvedVamps == numVampires and solvedZombies == numZombies
