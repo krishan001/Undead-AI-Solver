@@ -1,5 +1,6 @@
 
 from tracePath import createPaths
+from bruteForce import bruteForce
    
 def readBoard(file, numLines, dim):
     # Read the board from a text file
@@ -60,7 +61,8 @@ def main():
     # define the dimentions of the board
     dim = 4
     matrix, vis = readBoard("board.txt", 1, dim)
-    printBoard(matrix,vis, dim)
+    # printBoard(matrix,vis, dim)
+    bruteForce(matrix,dim, vis)
     # createPaths(matrix,vis)
 
 

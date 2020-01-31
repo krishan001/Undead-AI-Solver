@@ -22,7 +22,7 @@ def createPaths(matrix, vis):
     print("D1 paths: ", dp["D1"],"\n")
 
     # Check that the number visible constraint is satisfied
-    checkVisible(rp,lp,up,dp,vis)
+    return checkVisible(rp,lp,up,dp,vis)
 
 def checkVisible(rp,lp,up,dp,vis):
     foundVis = []
@@ -34,8 +34,8 @@ def checkVisible(rp,lp,up,dp,vis):
         foundVis.append(countVis(x))
     for x in rp.values():
         foundVis.append(countVis(x))
-
     print("Paths view the correct number:", foundVis == vis)
+    return foundVis == vis
 
 def countVis(path):
     # Given a path, figure out how many monsters you can see
