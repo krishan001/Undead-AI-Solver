@@ -31,39 +31,46 @@ def fancy_grid_line(start,norm,lcross,hcross,end):
                    + (norm*3 + lcross)
                    + norm*3  + end )
 
-TOP_LINE       = fancy_grid_line( '2554', '2550', '2564', '2566', '2557' )
-THIN_MID_LINE  = fancy_grid_line( '255f', '2500', '253c', '256b', '2562' )
-BOTTOM_LINE    = fancy_grid_line( '255a', '2550', '2567', '2569', '255d' )
+TOP_LINE       = fancy_grid_line( '2554', '2550', '2566', '2566', '2557' )
+MID_LINE  = fancy_grid_line( '2560', '2550', '256c', '256c', '2563' )
+BOTTOM_LINE    = fancy_grid_line( '255a', '2550', '2569', '2569', '255d' )
 
 def printBoard(grid, vis,dim):
+    # vertical bar
     dvbar = uni('2551')
+    
     indent = "   "
     halfIndent = "  "
     print(indent, end="")
+    # Print the number of visible monsters on the top
     for i in range(0,dim):
         print(halfIndent +str(vis[i])+ " ", end = "")
     print( "\n"+ indent + TOP_LINE )
     count = 0
     for row in grid:
         count +=1
+        # Print the number of visible monsters on the left
         print( str(vis[count-1+dim*3])+ halfIndent + dvbar, end ="")
         for c in row:
             print(" " +c + " " + dvbar, end="")
+        # Print the number of visible monsters on the right
         if count == 4:
             print(" " +str(vis[count-1+dim])+"\n" + indent+BOTTOM_LINE)
         else:
-            print(" "+ str(vis[count-1+dim])+"\n" +indent+THIN_MID_LINE)
+            print(" "+ str(vis[count-1+dim])+"\n" +indent+MID_LINE)
     print(indent, end = "")
     for i in range(0,dim):
+        # Print the number of visible monsters on the bottom
         print(halfIndent +str(vis[i+dim*2])+ " ", end = "")
     print("\n")
+
+
 def main():
     # define the dimentions of the board
     dim = 4
     matrix, vis = readBoard("board.txt", 1, dim)
-    # printBoard(matrix,vis, dim)
+    printBoard(matrix,vis, dim)
     bruteForce(matrix,dim, vis)
-    # createPaths(matrix,vis)
 
 
 if __name__ == "__main__":

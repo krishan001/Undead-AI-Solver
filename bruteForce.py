@@ -1,7 +1,6 @@
 from tracePath import createPaths
 
 def checkConstraints(matrix, vis):
-
     return createPaths(matrix, vis)
 
 def bruteForce(solvedMatrix, dim, vis):
