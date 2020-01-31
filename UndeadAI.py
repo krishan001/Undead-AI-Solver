@@ -37,14 +37,15 @@ BOTTOM_LINE    = fancy_grid_line( '255a', '2550', '2567', '2569', '255d' )
 def printBoard(grid, vis,dim):
     dvbar = uni('2551')
     indent = "   "
+    halfIndent = "  "
     print(indent, end="")
     for i in range(0,dim):
-        print("  " +str(vis[i])+ " ", end = "")
+        print(halfIndent +str(vis[i])+ " ", end = "")
     print( "\n"+ indent + TOP_LINE )
     count = 0
     for row in grid:
         count +=1
-        print( str(vis[count-1+dim*3])+ "  " + dvbar, end ="")
+        print( str(vis[count-1+dim*3])+ halfIndent + dvbar, end ="")
         for c in row:
             print(" " +c + " " + dvbar, end="")
         if count == 4:
@@ -53,7 +54,7 @@ def printBoard(grid, vis,dim):
             print(" "+ str(vis[count-1+dim])+"\n" +indent+THIN_MID_LINE)
     print(indent, end = "")
     for i in range(0,dim):
-        print("  " +str(vis[i+dim*2])+ " ", end = "")
+        print(halfIndent +str(vis[i+dim*2])+ " ", end = "")
     print("\n")
 def main():
     # define the dimentions of the board
