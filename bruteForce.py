@@ -1,0 +1,2 @@
+def bruteForce(matrix):
+    pass
