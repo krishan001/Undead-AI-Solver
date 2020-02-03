@@ -18,7 +18,6 @@ def randomBruteForce(solvedMatrix, vis, dim, numGhosts, numVampires,numZombies):
                     if value == 3:
                         solvedMatrix[i][j] = "z"
         
-        # print(solvedMatrix)
 
     if checkSolved(solvedMatrix, vis, numGhosts, numVampires,numZombies):
         return solvedMatrix
