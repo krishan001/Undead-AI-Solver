@@ -21,11 +21,12 @@ def randomBruteForce(solvedMatrix, vis, dim, numGhosts, numVampires,numZombies):
         # print(solvedMatrix)
 
     if checkSolved(solvedMatrix, vis, numGhosts, numVampires,numZombies):
+        return solvedMatrix
         print("Solved!")
     else:
+        return "Failed"
         print("Failed")
     
-    return solvedMatrix
 
 
 
