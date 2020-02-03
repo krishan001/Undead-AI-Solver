@@ -1,6 +1,6 @@
 
 from tracePath import createPaths
-from bruteForce import *
+from bruteForce import randomBruteForce
 import time
 from displayGrid import printBoard
    
