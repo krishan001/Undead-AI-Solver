@@ -18,9 +18,6 @@ def createPaths(matrix):
 
     return rp,lp,up,dp
 
-    # Check that the number visible constraint is satisfied
-    return rp,lp,up,dp
-
 def checkVisible(rp,lp,up,dp,vis):
     foundVis = []
     for x in dp.values():
@@ -32,11 +29,11 @@ def checkVisible(rp,lp,up,dp,vis):
     for x in rp.values():
         foundVis.append(countVis(x))
     # print("Paths view the correct number:", foundVis == vis)
-    if foundVis == vis:
-        print("Right paths: ",rp,"\n")
-        print("Left paths: ",lp,"\n")
-        print("Upwards paths: ", up, "\n")
-        print("D1 paths: ", dp["D1"],"\n")
+    # if foundVis == vis:
+        # print("Right paths: ",rp,"\n")
+        # print("Left paths: ",lp,"\n")
+        # print("Upwards paths: ", up, "\n")
+        # print("D1 paths: ", dp["D1"],"\n")
     return foundVis == vis
 
 def countVis(path):

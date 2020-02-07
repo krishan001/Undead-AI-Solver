@@ -87,39 +87,12 @@ def beforeMirror(cell, allPaths, l):
     for e in l:
         bMirror = True
         for value in allPaths[e]:
-            # print("value", value)
             if value == '\\' or value =='/':
                 bMirror = False
             if value == cell:
                 return bMirror
     return bMirror
-    # for v in rp.values():
-    #     for e  in v:
-            # if e == '\\' or e =='/':
-            #     bMirror = False
-    #         if e == cell:
-    #             # print(bMirror, cell)
-    #             return bMirror
-    # for v in lp.values():
-    #     for e  in v:
-    #         if e == '\\' or e =='/':
-    #             bMirror = False
-    #         if e == cell:
-    #             return bMirror
-    # for v in up.values():
-    #     for e  in v:
-    #         if e == '\\' or e =='/':
-    #             bMirror = False
-    #         if e == cell:
-    #             return bMirror
-    # for v in dp.values():
-    #     for e  in v:
-    #         if e == '\\' or e =='/':
-    #             bMirror = False
-    #         if e == cell:
-    #             return bMirror
-    
-    return bMirror
+
 
         
 
@@ -129,7 +102,7 @@ def zeroFill(matrix, dim,vis):
     matrix = labelPaths(matrix,dim)
     rp,lp,up,dp = createPaths(matrix)
     allPaths = {**rp, **lp, **up, **dp}
-    # print(allPaths)
+
     pathDict = getLabelVisDict(vis,dim)
     zeroPaths, l = getZeroPaths(pathDict, allPaths)
     
