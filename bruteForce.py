@@ -21,35 +21,13 @@ def randomBruteForce(solvedMatrix, vis, dim, numGhosts, numVampires,numZombies):
         # print(solvedMatrix)
 
     if checkSolved(solvedMatrix, vis, numGhosts, numVampires,numZombies):
+        return solvedMatrix
         print("Solved!")
     else:
+        return "Failed"
         print("Failed")
     
-    return solvedMatrix
 
-def bruteForce(solvedMatrix, vis, dim, numGhosts, numVampires,numZombies):
-    originalMatrix = deepcopy(solvedMatrix)
-    while (checkSolved(solvedMatrix, vis, numGhosts, numVampires,numZombies) == False):
-        solvedMatrix = deepcopy(originalMatrix)
-        for i in range(0,dim):
-            for j in range(0,dim):
-                for k in range(1,4):
-                    if solvedMatrix[i][j] == "." or solvedMatrix[i][j] == "g" or solvedMatrix[i][j] == "v" or solvedMatrix[i][j] == "z" :
-                        if k == 1:
-                            solvedMatrix[i][j] = "g"
-                            if checkSolved(solvedMatrix, vis, numGhosts, numVampires,numZombies):
-                                break
-                        if k == 2:
-                            solvedMatrix[i][j] = "v"
-                            if checkSolved(solvedMatrix, vis, numGhosts, numVampires,numZombies):
-                                break
-                        if k == 3:
-                            solvedMatrix[i][j] = "z"
-                            if checkSolved(solvedMatrix, vis, numGhosts, numVampires,numZombies):
-                                break
-        print(solvedMatrix)
-
-    return solvedMatrix
 
 
 def setPossibilities(matrix, dim):

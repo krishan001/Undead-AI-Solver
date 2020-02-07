@@ -15,7 +15,6 @@ BOTTOM_LINE    = fancy_grid_line( '255a', '2550', '2569', '2569', '255d' )
 def printBoard(grid, vis, dim, numGhosts, numVampires,numZombies):
     # vertical bar
     dvbar = uni('2551')
-    
     indent = "   "
     halfIndent = "  "
     print("Number of Ghosts: {} \nNumber of Vampires: {}\nNumber of Zombies: {}\n".format(numGhosts, numVampires, numZombies))

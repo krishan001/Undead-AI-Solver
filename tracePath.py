@@ -16,10 +16,7 @@ def createPaths(matrix):
     up = upPaths(matrix, dim)
     dp = downPaths(matrix, dim)
 
-    # print("Right paths: ",rp,"\n")
-    # print("Left paths: ",lp,"\n")
-    # print("Upwards paths: ", up, "\n")
-    # print("D1 paths: ", dp["D1"],"\n")
+    return rp,lp,up,dp
 
     # Check that the number visible constraint is satisfied
     return rp,lp,up,dp
@@ -35,6 +32,11 @@ def checkVisible(rp,lp,up,dp,vis):
     for x in rp.values():
         foundVis.append(countVis(x))
     # print("Paths view the correct number:", foundVis == vis)
+    if foundVis == vis:
+        print("Right paths: ",rp,"\n")
+        print("Left paths: ",lp,"\n")
+        print("Upwards paths: ", up, "\n")
+        print("D1 paths: ", dp["D1"],"\n")
     return foundVis == vis
 
 def countVis(path):
@@ -84,7 +86,7 @@ def downPaths(matrix,dim):
     return paths
 
 def tracePath(matrix, x, y, d, dim):
-    # 0 = up, 1 = right, 2 = down, 3 = left
+    # For d: 0 = up, 1 = right, 2 = down, 3 = left
     path = []
     
     while(x < dim and y < dim and x >=0 and y>=0): # In the bounds of the matrix
