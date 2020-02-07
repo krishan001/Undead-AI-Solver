@@ -23,6 +23,130 @@ def readBoard(file, numLines, dim):
     
     return grid, vis, numGhosts, numVampires,numZombies
 
+def cross(A, B):
+    "Cross product of elements in A and elements in B."
+    return [a+b for a in A for b in B]
+
+def labelPaths(matrix, dim):
+    alph = "ABCDEFGHI"
+    digits = "123456789"
+    alph = alph[:dim]
+    digits = digits[:dim]
+    squares = cross(alph,digits)
+    for i in range(0,dim):
+        for j in range(0,dim):
+            if matrix[i][j] == ".":
+                matrix[i][j] = squares[i * dim + j]
+
+    return matrix
+
+def getLabelVisDict(vis,dim):
+    downLabels = ["D1","D2","D3","D4","D5","D6","D7","D8", "D9"]
+    leftLabels = ["L1","L2","L3","L4","L5","L6","L7","L8", "L9"]
+    upLabels = ["U1","U2","U3","U4", "U5","U6","U7","U8", "U9"]
+    rightLabels = ["R1","R2","R3","R4", "R5","R6","R7","R8", "R9"]
+    downLabels = downLabels[:dim]
+    leftLabels = leftLabels[:dim]
+    upLabels = upLabels[:dim]
+    rightLabels = rightLabels[:dim]
+    labels = downLabels + leftLabels + upLabels +rightLabels
+    
+    return  dict(zip(labels, vis))
+
+def getZeroPaths(pathDict, allPaths):
+    l = []
+    zeroPaths = []
+    for label, vis in pathDict.items():
+        if vis == 0:
+            l.append(label)
+    for key, value in allPaths.items():
+        for e in l:
+            if e == key:
+                zeroPaths.append(value)
+    print(l)
+    zeroPaths = getLabelsFromZeroPaths(zeroPaths)
+    return zeroPaths, l
+
+def getLabelsFromZeroPaths(zeroPaths):
+    zeroPaths = [item for sublist in zeroPaths for item in sublist]
+    zeroPaths = list(dict.fromkeys(zeroPaths))
+    if 'g' in zeroPaths:
+        zeroPaths.remove('g')
+    if 'v' in zeroPaths:
+        zeroPaths.remove('v')
+    if 'z' in zeroPaths:
+        zeroPaths.remove('z')
+    if '\\' in zeroPaths:
+        zeroPaths.remove('\\')
+    if '/' in zeroPaths:
+        zeroPaths.remove('/')
+    
+    return zeroPaths
+
+def beforeMirror(cell, allPaths, l):
+    for e in l:
+        bMirror = True
+        for value in allPaths[e]:
+            # print("value", value)
+            if value == '\\' or value =='/':
+                bMirror = False
+            if value == cell:
+                return bMirror
+    return bMirror
+    # for v in rp.values():
+    #     for e  in v:
+            # if e == '\\' or e =='/':
+            #     bMirror = False
+    #         if e == cell:
+    #             # print(bMirror, cell)
+    #             return bMirror
+    # for v in lp.values():
+    #     for e  in v:
+    #         if e == '\\' or e =='/':
+    #             bMirror = False
+    #         if e == cell:
+    #             return bMirror
+    # for v in up.values():
+    #     for e  in v:
+    #         if e == '\\' or e =='/':
+    #             bMirror = False
+    #         if e == cell:
+    #             return bMirror
+    # for v in dp.values():
+    #     for e  in v:
+    #         if e == '\\' or e =='/':
+    #             bMirror = False
+    #         if e == cell:
+    #             return bMirror
+    
+    return bMirror
+
+        
+
+
+
+def zeroFill(matrix, dim,vis):
+    matrix = labelPaths(matrix,dim)
+    rp,lp,up,dp = createPaths(matrix)
+    allPaths = {**rp, **lp, **up, **dp}
+    # print(allPaths)
+    pathDict = getLabelVisDict(vis,dim)
+    zeroPaths, l = getZeroPaths(pathDict, allPaths)
+    
+    for i in range(0,dim):
+        for j in range(0,dim):
+            if matrix[i][j] in zeroPaths:
+                # check if before mirror or after
+                
+                if beforeMirror(matrix[i][j], allPaths, l):
+                    matrix[i][j] = 'g'
+                elif not beforeMirror(matrix[i][j], allPaths, l):
+
+                    matrix[i][j] = 'v'
+            
+
+    return(matrix)
+
 
 def main():
     # define the dimentions of the board
@@ -32,6 +156,9 @@ def main():
     # Print original board
     printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
 
+    # Fill in the paths that have 0 visible
+    matrix = zeroFill(matrix,dim,vis)
+    printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
     # Time the solver
     startTime = time.perf_counter()
     solvedMatrix = randomBruteForce(matrix,vis, dim, numGhosts, numVampires,numZombies)

@@ -4,7 +4,7 @@ mirrors = True
 def isSquare (matrix): #Check that it is a square matrix
     return all (len (row) == len (matrix) for row in matrix)
 
-def createPaths(matrix, vis):
+def createPaths(matrix):
     if isSquare(matrix): 
         dim = len(matrix)
     else:
@@ -22,7 +22,7 @@ def createPaths(matrix, vis):
     # print("D1 paths: ", dp["D1"],"\n")
 
     # Check that the number visible constraint is satisfied
-    return checkVisible(rp,lp,up,dp,vis)
+    return rp,lp,up,dp
 
 def checkVisible(rp,lp,up,dp,vis):
     foundVis = []
@@ -148,5 +148,5 @@ def checkSolved(matrix, vis, numGhosts, numVampires,numZombies):
                 solvedVamps += 1
             if c == "z":
                 solvedZombies += 1
-
-    return createPaths(matrix, vis) and solvedGhosts == numGhosts and solvedVamps == numVampires and solvedZombies == numZombies
+    rp,lp,up,dp = createPaths(matrix)
+    return checkVisible(rp,lp,up,dp,vis) and solvedGhosts == numGhosts and solvedVamps == numVampires and solvedZombies == numZombies

@@ -9,7 +9,7 @@ def randomBruteForce(solvedMatrix, vis, dim, numGhosts, numVampires,numZombies):
         solvedMatrix = deepcopy(originalMatrix)
         for i in range(0,dim):
             for j in range(0,dim):
-                if solvedMatrix[i][j] == ".":
+                if solvedMatrix[i][j] != "g" and solvedMatrix[i][j] != "v" and  solvedMatrix[i][j] != "z" and solvedMatrix[i][j] != "\\" and solvedMatrix[i][j] != "/":
                     value = randint(1,3)
                     if value == 1:
                         solvedMatrix[i][j] = "g"
@@ -18,7 +18,7 @@ def randomBruteForce(solvedMatrix, vis, dim, numGhosts, numVampires,numZombies):
                     if value == 3:
                         solvedMatrix[i][j] = "z"
         
-        print(solvedMatrix)
+        # print(solvedMatrix)
 
     if checkSolved(solvedMatrix, vis, numGhosts, numVampires,numZombies):
         print("Solved!")
