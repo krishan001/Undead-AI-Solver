@@ -153,4 +153,6 @@ TODO:
 * check solved
 * record time for solve
 * then do depth first etc and record times
+* Solve paths and if there is only one possible path then solve it.
+* potentially zero sum
 '''
