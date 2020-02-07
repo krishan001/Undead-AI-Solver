@@ -93,11 +93,6 @@ def beforeMirror(cell, allPaths, l):
                 return bMirror
     return bMirror
 
-
-        
-
-
-
 def zeroFill(matrix, dim,vis):
     matrix = labelPaths(matrix,dim)
     rp,lp,up,dp = createPaths(matrix)
@@ -123,7 +118,7 @@ def zeroFill(matrix, dim,vis):
 
 def main():
     # define the dimentions of the board
-    dim = 4
+    dim = 5
     matrix, vis, numGhosts, numVampires,numZombies = readBoard("board.txt", 1, dim)
 
     # Print original board
