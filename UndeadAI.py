@@ -25,7 +25,7 @@ def readBoard(file, numLines, dim):
 
 def main():
     # define the dimentions of the board
-    dim = 4
+    dim = 5
     #read the board from a file
     matrix, vis, numGhosts, numVampires,numZombies = readBoard("board.txt", 1, dim)
     # Print original board
