@@ -110,18 +110,20 @@ def getLabelsFromZeroPaths(zeroPaths):
 def main():
     # define the dimentions of the board
     dim = 4
+    #read the board from a file
     matrix, vis, numGhosts, numVampires,numZombies = readBoard("board.txt", 1, dim)
-
     # Print original board
     printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
-
     # Fill in the paths that have 0 visible
     matrix = zeroFill(matrix,dim,vis)
-    # printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
+   
+    ######################################################################################
     # Time the solver
     startTime = time.perf_counter()
     solvedMatrix = randomBruteForce(matrix,vis, dim, numGhosts, numVampires,numZombies)
     timeTaken = time.perf_counter() - startTime
+    ######################################################################################
+
     # Print solved board
     printBoard(solvedMatrix,vis, dim, numGhosts, numVampires,numZombies)
     print("took  {0:.3f} seconds".format(timeTaken))
