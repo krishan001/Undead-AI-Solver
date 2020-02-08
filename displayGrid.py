@@ -3,10 +3,10 @@ def uni(s):
 
 def fancy_grid_line(start,norm,lcross,hcross,end):
       start,norm,lcross,hcross,end = ( uni(start),uni(norm), uni(lcross),uni(hcross),uni(end))
-      return ( start + ((norm*3 + lcross)
-                   + norm*3 + hcross)
-                   + (norm*3 + lcross)
-                   + norm*3  + end )
+      return ( start + ((norm*4 + lcross)
+                   + norm*4 + hcross)
+                   + (norm*4 + lcross)*2
+                   + norm*4  + end )
 
 TOP_LINE       = fancy_grid_line( '2554', '2550', '2566', '2566', '2557' )
 MID_LINE  = fancy_grid_line( '2560', '2550', '256c', '256c', '2563' )
