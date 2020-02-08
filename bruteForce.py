@@ -22,13 +22,8 @@ def randomBruteForce(solvedMatrix, vis, dim, numGhosts, numVampires,numZombies):
 
     if checkSolved(solvedMatrix, vis, numGhosts, numVampires,numZombies):
         return solvedMatrix
-        print("Solved!")
     else:
         return "Failed"
-        print("Failed")
-    
-
-
 
 def setPossibilities(matrix, dim):
     for i in range(0,dim):
