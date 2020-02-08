@@ -3,6 +3,7 @@ def uni(s):
 
 def fancy_grid_line(start,norm,lcross,hcross,end, dim):
       start,norm,lcross,hcross,end = ( uni(start),uni(norm), uni(lcross),uni(hcross),uni(end))
+      print(dim)
       return ( start + ((norm*(dim-1) + lcross)
                    + norm*(dim-1) + hcross)
                    + (norm*(dim-1) + lcross) *(dim-3)
@@ -21,6 +22,8 @@ def printBoard(grid, vis, dim, numGhosts, numVampires,numZombies):
         padding = " "
     elif dim == 5:
         padding = halfIndent
+    elif dim == 7:
+        padding = "   "
     print("Number of Ghosts: {} \nNumber of Vampires: {}\nNumber of Zombies: {}\n".format(numGhosts, numVampires, numZombies))
     print(indent, end="")
     # Print the number of visible monsters on the top
@@ -33,7 +36,7 @@ def printBoard(grid, vis, dim, numGhosts, numVampires,numZombies):
         # Print the number of visible monsters on the left
         print( str(vis[count-1+dim*3])+ halfIndent + dvbar, end ="")
         for c in row:
-            print(" " +c + "  " + dvbar, end="")
+            print(" " +c + padding + dvbar, end="")
         # Print the number of visible monsters on the right
         if count == dim:
             print(" " +str(vis[count-1+dim])+"\n" + indent+BOTTOM_LINE)
