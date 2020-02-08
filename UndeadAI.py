@@ -27,6 +27,34 @@ def cross(A, B):
     "Cross product of elements in A and elements in B."
     return [a+b for a in A for b in B]
 
+def zeroFill(matrix, dim,vis):
+    matrix = labelPaths(matrix,dim)
+    rp,lp,up,dp = createPaths(matrix)
+    allPaths = {**rp, **lp, **up, **dp}
+
+    pathDict = getLabelVisDict(vis,dim)
+    zeroPaths, l = getZeroPaths(pathDict, allPaths)
+    
+    for i in range(0,dim):
+        for j in range(0,dim):
+            if matrix[i][j] in zeroPaths:
+                # check if before mirror or after
+                if beforeMirror(matrix[i][j], allPaths, l):
+                    matrix[i][j] = 'g'
+                elif not beforeMirror(matrix[i][j], allPaths, l):
+                    matrix[i][j] = 'v'
+    return matrix
+
+def beforeMirror(cell, allPaths, l):
+    for e in l:
+        bMirror = True
+        for value in allPaths[e]:
+            if value == '\\' or value =='/':
+                bMirror = False
+            if value == cell:
+                return bMirror
+    return bMirror
+
 def labelPaths(matrix, dim):
     alph = "ABCDEFGHI"
     digits = "123456789"
@@ -63,62 +91,25 @@ def getZeroPaths(pathDict, allPaths):
         for e in l:
             if e == key:
                 zeroPaths.append(value)
-    print(l)
+
     zeroPaths = getLabelsFromZeroPaths(zeroPaths)
     return zeroPaths, l
 
 def getLabelsFromZeroPaths(zeroPaths):
+    # flatten a 2D list into a 1D list
     zeroPaths = [item for sublist in zeroPaths for item in sublist]
+    # get rid of repetitions
     zeroPaths = list(dict.fromkeys(zeroPaths))
-    if 'g' in zeroPaths:
-        zeroPaths.remove('g')
-    if 'v' in zeroPaths:
-        zeroPaths.remove('v')
-    if 'z' in zeroPaths:
-        zeroPaths.remove('z')
-    if '\\' in zeroPaths:
-        zeroPaths.remove('\\')
-    if '/' in zeroPaths:
-        zeroPaths.remove('/')
-    
+    remove = ['g','v','z','\\','/']
+    # remove pre filled squares
+    for e in zeroPaths:
+        if e in remove:
+            zeroPaths.remove(e)
     return zeroPaths
-
-def beforeMirror(cell, allPaths, l):
-    for e in l:
-        bMirror = True
-        for value in allPaths[e]:
-            if value == '\\' or value =='/':
-                bMirror = False
-            if value == cell:
-                return bMirror
-    return bMirror
-
-def zeroFill(matrix, dim,vis):
-    matrix = labelPaths(matrix,dim)
-    rp,lp,up,dp = createPaths(matrix)
-    allPaths = {**rp, **lp, **up, **dp}
-
-    pathDict = getLabelVisDict(vis,dim)
-    zeroPaths, l = getZeroPaths(pathDict, allPaths)
-    
-    for i in range(0,dim):
-        for j in range(0,dim):
-            if matrix[i][j] in zeroPaths:
-                # check if before mirror or after
-                
-                if beforeMirror(matrix[i][j], allPaths, l):
-                    matrix[i][j] = 'g'
-                elif not beforeMirror(matrix[i][j], allPaths, l):
-
-                    matrix[i][j] = 'v'
-            
-
-    return(matrix)
-
 
 def main():
     # define the dimentions of the board
-    dim = 5
+    dim = 4
     matrix, vis, numGhosts, numVampires,numZombies = readBoard("board.txt", 1, dim)
 
     # Print original board
@@ -126,7 +117,7 @@ def main():
 
     # Fill in the paths that have 0 visible
     matrix = zeroFill(matrix,dim,vis)
-    printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
+    # printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
     # Time the solver
     startTime = time.perf_counter()
     solvedMatrix = randomBruteForce(matrix,vis, dim, numGhosts, numVampires,numZombies)
