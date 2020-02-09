@@ -13,6 +13,7 @@ def readBoard(file, numLines, dim):
         # take the number visible in each path and remove them from the string
         [numGhosts, numVampires,numZombies] = map(int,s[:3])
         s = s[3:]
+        # get the numbers of visible monsters fro each path
         vis = list(map(int,(s[:(dim*4)])))
         s = s[(dim*4):]
         # create grid from string
