@@ -1,5 +1,6 @@
 
 from tracePath import createPaths
+from allPaths import allPaths
 from bruteForce import randomBruteForce
 import time
 from displayGrid import printBoard
@@ -23,7 +24,21 @@ def readBoard(file, numLines, dim):
 
     
     return grid, vis, numGhosts, numVampires,numZombies
+def possPaths(matrix, vis, dim):
+    rp,lp,up,dp = createPaths(matrix)
+    label = "D3"
+    unsolved = numUnsolved(dp[label])
+    allRightPaths = allPaths(label, dp[label], unsolved, vis, dim)
+    print(len(allRightPaths))
+    for e in allRightPaths:
+        print(e)
 
+def numUnsolved(path):
+    i = 0
+    for e in path:
+        if e != "g" and e != "v" and  e != "z" and e != "\\" and e != "/":
+            i+=1
+    return i
 def main():
     # define the dimentions of the board
     dim = 4
@@ -33,7 +48,8 @@ def main():
     printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
     # Fill in the paths that have 0 visible
     matrix = zeroFill(matrix,dim,vis)
-   
+    printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
+    possPaths(matrix, vis, dim)
     ######################################################################################
     # Time the solver
     startTime = time.perf_counter()

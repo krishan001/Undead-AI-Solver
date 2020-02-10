@@ -3,7 +3,6 @@ def uni(s):
 
 def fancy_grid_line(start,norm,lcross,hcross,end, dim):
       start,norm,lcross,hcross,end = ( uni(start),uni(norm), uni(lcross),uni(hcross),uni(end))
-      print(dim)
       return ( start + ((norm*(dim-1) + lcross)
                    + norm*(dim-1) + hcross)
                    + (norm*(dim-1) + lcross) *(dim-3)
