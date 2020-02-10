@@ -10,7 +10,6 @@ def zeroFill(matrix, dim,vis):
 
     pathDict = getLabelVisDict(vis,dim)
     zeroPaths, l = getZeroPaths(pathDict, allPaths)
-    
     for i in range(0,dim):
         for j in range(0,dim):
             if matrix[i][j] in zeroPaths:
@@ -72,7 +71,6 @@ def getZeroPaths(pathDict, allPaths):
             if e == key:
                 zeroPaths.append(value)
     zeroPaths = getLabelsFromZeroPaths(zeroPaths)
-    print(zeroPaths)
     return zeroPaths, l
 
 def getLabelsFromZeroPaths(zeroPaths):

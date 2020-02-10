@@ -6,6 +6,7 @@ from tracePath import countVis, createPaths
 def allPaths(label, path, unsolved, vis, dim):
     visDict = getLabelVisDict(vis,dim)
     loop = True
+    changed = False
     possible = ['g', 'v', 'z']
     possPaths = []
     ogPath = deepcopy(path)
@@ -17,9 +18,10 @@ def allPaths(label, path, unsolved, vis, dim):
             for k in range(0,len(path)):
                 if path[k]!= "g" and path[k] != "v" and  path[k] != "z" and path[k] != "\\" and path[k] != "/" and loop:
                     path[k] = j
+                    changed = True
                     loop = False
                     break
-        if countVis(path) == visDict[label]:
+        if countVis(path) == visDict[label] and changed:
             possPaths.append(path)
 
     return possPaths
@@ -31,9 +33,23 @@ def possPaths(matrix, vis, dim):
     possLeft = allDirPaths(lp,vis,dim)
     possUp = allDirPaths(up,vis,dim)
     possDown = allDirPaths(dp,vis,dim)
-    for e in possLeft:
-        print(e)
-
+    print(possRight)
+    for label, path in possRight.items():
+        if len(path) != 0:
+            fillPath(matrix, label, path)
+            print(path)
+    for label, path in possLeft.items():
+        if len(path) != 0:
+            fillPath(matrix, label, path)
+            print(path)
+    for label, path in possUp.items():
+        if len(path) != 0:
+            fillPath(matrix, label, path)
+            print(path)
+    for label, path in possDown.items():
+        if len(path) != 0:
+            fillPath(matrix, label, path)
+            print(path)
 def numUnsolved(path):
     i = 0
     for e in path:
@@ -43,8 +59,13 @@ def numUnsolved(path):
 
 
 def allDirPaths(path, vis, dim):
-    ap = []
+    ap = {}
     for p in path:
         unsolved = numUnsolved(path[p])
-        ap.append(allPaths(p,path[p], unsolved, vis, dim))
+        apVal = allPaths(p,path[p], unsolved, vis, dim)
+        if len(apVal)!=0:
+            ap[p] = apVal
     return ap
+
+def fillPath(matrix, label, path):
+    print("filling path ", label)
