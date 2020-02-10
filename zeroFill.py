@@ -45,6 +45,12 @@ def labelPaths(matrix, dim):
     return matrix
 
 def getLabelVisDict(vis,dim):
+    rightLabels, leftLabels, upLabels, downLabels = getLabels(dim)
+    labels = downLabels + leftLabels + upLabels +rightLabels
+    return  dict(zip(labels, vis))
+
+
+def getLabels(dim):
     downLabels = ["D1","D2","D3","D4","D5","D6","D7"]
     leftLabels = ["L1","L2","L3","L4","L5","L6","L7"]
     upLabels = ["U1","U2","U3","U4", "U5","U6","U7"]
@@ -53,10 +59,8 @@ def getLabelVisDict(vis,dim):
     leftLabels = leftLabels[:dim]
     upLabels = upLabels[:dim]
     rightLabels = rightLabels[:dim]
-    labels = downLabels + leftLabels + upLabels +rightLabels
-    
-    return  dict(zip(labels, vis))
 
+    return rightLabels, leftLabels, upLabels, downLabels
 def getZeroPaths(pathDict, allPaths):
     l = []
     zeroPaths = []

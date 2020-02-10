@@ -2,7 +2,7 @@
 from itertools import product
 from copy import deepcopy
 from zeroFill import getLabelVisDict
-from tracePath import countVis
+from tracePath import countVis, createPaths
 def allPaths(label, path, unsolved, vis, dim):
     visDict = getLabelVisDict(vis,dim)
     loop = True
@@ -23,6 +23,28 @@ def allPaths(label, path, unsolved, vis, dim):
             possPaths.append(path)
 
     return possPaths
-# path = ['.', '.', 'g', '/', '\\', 'v', 'z', '.']
-# allPaths(path)
 
+
+def possPaths(matrix, vis, dim):
+    rp,lp,up,dp = createPaths(matrix)
+    possRight = allDirPaths(rp,vis,dim)
+    possLeft = allDirPaths(lp,vis,dim)
+    possUp = allDirPaths(up,vis,dim)
+    possDown = allDirPaths(dp,vis,dim)
+    for e in possLeft:
+        print(e)
+
+def numUnsolved(path):
+    i = 0
+    for e in path:
+        if e != "g" and e != "v" and  e != "z" and e != "\\" and e != "/":
+            i+=1
+    return i
+
+
+def allDirPaths(path, vis, dim):
+    ap = []
+    for p in path:
+        unsolved = numUnsolved(path[p])
+        ap.append(allPaths(p,path[p], unsolved, vis, dim))
+    return ap
