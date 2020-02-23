@@ -29,7 +29,7 @@ def allPaths(label, path, unsolved, vis, dim):
 def isBlank(x):
     return x!= "g" and x!= "v" and  x != "z" and x != "\\" and x != "/"
 
-    
+
 def possPaths(matrix, vis, dim):
     rp,lp,up,dp = createPaths(matrix)
     possRight = allDirPaths(rp,vis,dim)
@@ -60,7 +60,7 @@ def possPaths(matrix, vis, dim):
 def numUnsolved(path):
     i = 0
     for e in path:
-        if e != "g" and e != "v" and  e != "z" and e != "\\" and e != "/":
+        if isBlank(e):
             i+=1
     return i
 
