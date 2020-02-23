@@ -34,18 +34,22 @@ def possPaths(matrix, vis, dim):
     possUp = allDirPaths(up,vis,dim)
     possDown = allDirPaths(dp,vis,dim)
     print(possRight)
+    # Try and fill all possible right paths
     for label, path in possRight.items():
         if len(path) != 0:
             fillPath(matrix, label, path)
             print(path)
+    # Try and fill all possible left paths
     for label, path in possLeft.items():
         if len(path) != 0:
             fillPath(matrix, label, path)
             print(path)
+    # Try and fill all possible up paths
     for label, path in possUp.items():
         if len(path) != 0:
             fillPath(matrix, label, path)
             print(path)
+    # Try and fill all possible down paths
     for label, path in possDown.items():
         if len(path) != 0:
             fillPath(matrix, label, path)
@@ -68,4 +72,5 @@ def allDirPaths(path, vis, dim):
     return ap
 
 def fillPath(matrix, label, path):
+    # Actually fill the matrix with the path
     print("filling path ", label)
