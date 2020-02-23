@@ -16,7 +16,7 @@ def allPaths(label, path, unsolved, vis, dim):
         for j in allPoss[i]:
             loop = True
             for k in range(0,len(path)):
-                if path[k]!= "g" and path[k] != "v" and  path[k] != "z" and path[k] != "\\" and path[k] != "/" and loop:
+                if isBlank(path[k]) and loop:
                     path[k] = j
                     changed = True
                     loop = False
@@ -26,7 +26,10 @@ def allPaths(label, path, unsolved, vis, dim):
 
     return possPaths
 
+def isBlank(x):
+    return x!= "g" and x!= "v" and  x != "z" and x != "\\" and x != "/"
 
+    
 def possPaths(matrix, vis, dim):
     rp,lp,up,dp = createPaths(matrix)
     possRight = allDirPaths(rp,vis,dim)
