@@ -2,7 +2,7 @@
 from itertools import product
 from copy import deepcopy
 from zeroFill import getLabelVisDict
-from tracePath import countVis, createPaths
+from tracePath import countVis, createPaths, checkSolved
 
 
 def allPaths(label, path, unsolved, vis, dim):
@@ -27,6 +27,7 @@ def allPaths(label, path, unsolved, vis, dim):
                     changed = True
                     loop = False
                     break
+        # Checks that the number visible is correct
         if countVis(path) == visDict[label] and changed:
             possPaths.append(path)
 
@@ -36,6 +37,13 @@ def allPaths(label, path, unsolved, vis, dim):
 def isBlank(x):
     return x!= "g" and x!= "v" and  x != "z" and x != "\\" and x != "/"
 
+def mergeDicts(d1,d2,d3,d4):
+    mergedDict = {}
+    mergedDict.update(d1)
+    mergedDict.update(d2)
+    mergedDict.update(d3)
+    mergedDict.update(d4)
+    return mergedDict
 
 def possPaths(matrix, vis, dim):
     rp,lp,up,dp = createPaths(matrix)
@@ -43,34 +51,21 @@ def possPaths(matrix, vis, dim):
     possLeft = allDirPaths(lp,vis,dim)
     possUp = allDirPaths(up,vis,dim)
     possDown = allDirPaths(dp,vis,dim)
-    # print(possRight)
-    # Try and fill all possible right paths
-    for label, paths in possRight.items():
-        if len(paths) != 0:
-            matrix = fillPath(matrix, label, paths[0], rp[label])
-            # print(path)
-    # Try and fill all possible left paths
-    # for label, path in possLeft.items():
-    #     if len(path) != 0:
-    #         fillPath(matrix, label, path)
-    #         # print(path)
-    # # Try and fill all possible up paths
-    # for label, path in possUp.items():
-    #     if len(path) != 0:
-    #         fillPath(matrix, label, path)
-    #         # print(path)
-    # # Try and fill all possible down paths
-    # for label, path in possDown.items():
-    #     if len(path) != 0:
-    #         fillPath(matrix, label, path)
-    #         # print(path)
+    allPossPathsDict = mergeDicts(possRight, possDown, possLeft,possUp)
+    sortedDict = {}
+    # Sort the keys of the dictionary by the length of the possible paths in ascending order
+    tempDict = sorted(allPossPathsDict, key = lambda k: len(allPossPathsDict[k]))
+
+    # add the keys and the values to a new sorted dictionary 
+    for i in range(0,len(tempDict)):
+        sortedDict[tempDict[i]] =allPossPathsDict[tempDict[i]]
+    
 def numUnsolved(path):
     i = 0
     for e in path:
         if isBlank(e):
             i+=1
     return i
-
 
 def allDirPaths(path, vis, dim):
     ap = {}
@@ -92,12 +87,13 @@ def fillPath(matrix, label, path, pathToFill):
         for i in range(0,len(path)):
             if pathToFill[i] != path[i] and isBlank(pathToFill[i]):
                 tempMatrix = insertIntoMatrix(path[i], pathToFill[i], matrix)
-                print(matrix)
+                print(tempMatrix)
         
     else:
         print("The path lengths don't match")
         exit()
     print("\n\n\n")
+    # If temp matrix doesn't violate constraints then matrix = tempmatrix
     return matrix
 
 def insertIntoMatrix (monster, position, matrix):
@@ -108,3 +104,10 @@ def insertIntoMatrix (monster, position, matrix):
     
     return matrix
     
+def Dfs(matrix, vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies):
+
+
+    if checkSolved(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies):
+        return matrix
+    else:
+        return "Failed"
