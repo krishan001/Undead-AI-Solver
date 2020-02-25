@@ -3,14 +3,19 @@ from itertools import product
 from copy import deepcopy
 from zeroFill import getLabelVisDict
 from tracePath import countVis, createPaths
+
+
 def allPaths(label, path, unsolved, vis, dim):
     visDict = getLabelVisDict(vis,dim)
+    # flag for loops
     loop = True
+    # flag for if the value of a square is changed
     changed = False
     possible = ['g', 'v', 'z']
     possPaths = []
     ogPath = deepcopy(path)
     allPoss = list(set(product(list(set(possible)),repeat = unsolved)))
+    # Find all the possible paths for a particular path
     for i in range(0,len(allPoss)):
         path = deepcopy(ogPath)
         for j in allPoss[i]:
@@ -26,6 +31,7 @@ def allPaths(label, path, unsolved, vis, dim):
 
     return possPaths
 
+# return if the square is blank
 def isBlank(x):
     return x!= "g" and x!= "v" and  x != "z" and x != "\\" and x != "/"
 
@@ -36,27 +42,27 @@ def possPaths(matrix, vis, dim):
     possLeft = allDirPaths(lp,vis,dim)
     possUp = allDirPaths(up,vis,dim)
     possDown = allDirPaths(dp,vis,dim)
-    print(possRight)
+    # print(possRight)
     # Try and fill all possible right paths
     for label, path in possRight.items():
         if len(path) != 0:
             fillPath(matrix, label, path)
-            print(path)
+            # print(path)
     # Try and fill all possible left paths
     for label, path in possLeft.items():
         if len(path) != 0:
             fillPath(matrix, label, path)
-            print(path)
+            # print(path)
     # Try and fill all possible up paths
     for label, path in possUp.items():
         if len(path) != 0:
             fillPath(matrix, label, path)
-            print(path)
+            # print(path)
     # Try and fill all possible down paths
     for label, path in possDown.items():
         if len(path) != 0:
             fillPath(matrix, label, path)
-            print(path)
+            # print(path)
 def numUnsolved(path):
     i = 0
     for e in path:
