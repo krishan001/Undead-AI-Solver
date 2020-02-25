@@ -148,4 +148,16 @@ def checkSolved(matrix, vis, numGhosts, numVampires,numZombies):
             if c == "z":
                 solvedZombies += 1
     rp,lp,up,dp = createPaths(matrix)
-    return checkVisible(rp,lp,up,dp,vis) and solvedGhosts == numGhosts and solvedVamps == numVampires and solvedZombies == numZombies
+    return checkVisible(rp,lp,up,dp,vis) and checkNumMonsters(matrix, vis, numGhosts, numVampires,numZombies)
+
+def checkNumMonsters(matrix, vis, numGhosts, numVampires,numZombies):
+    solvedGhosts, solvedVamps, solvedZombies = 0,0,0
+    for row in matrix:
+        for c in row:
+            if c == "g":
+                solvedGhosts += 1
+            if c == "v":
+                solvedVamps += 1
+            if c == "z":
+                solvedZombies += 1
+    return  solvedGhosts == numGhosts and solvedVamps == numVampires and solvedZombies == numZombies

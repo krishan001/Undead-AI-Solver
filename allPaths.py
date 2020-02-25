@@ -2,7 +2,7 @@
 from itertools import product
 from copy import deepcopy
 from zeroFill import getLabelVisDict
-from tracePath import countVis, createPaths, checkSolved
+from tracePath import countVis, createPaths, checkSolved, checkNumMonsters
 
 
 def allPaths(label, path, unsolved, vis, dim):
@@ -37,6 +37,7 @@ def allPaths(label, path, unsolved, vis, dim):
 def isBlank(x):
     return x!= "g" and x!= "v" and  x != "z" and x != "\\" and x != "/"
 
+# merge 4 dictionaries into one
 def mergeDicts(d1,d2,d3,d4):
     mergedDict = {}
     mergedDict.update(d1)
@@ -45,8 +46,10 @@ def mergeDicts(d1,d2,d3,d4):
     mergedDict.update(d4)
     return mergedDict
 
+# get a dictionary of all the possible paths that could be in the grid
 def possPaths(matrix, vis, dim):
     rp,lp,up,dp = createPaths(matrix)
+    ap = mergeDicts(rp,lp,up,dp)
     possRight = allDirPaths(rp,vis,dim)
     possLeft = allDirPaths(lp,vis,dim)
     possUp = allDirPaths(up,vis,dim)
@@ -58,8 +61,18 @@ def possPaths(matrix, vis, dim):
 
     # add the keys and the values to a new sorted dictionary 
     for i in range(0,len(tempDict)):
-        sortedDict[tempDict[i]] =allPossPathsDict[tempDict[i]]
+        sortedDict[tempDict[i]] = allPossPathsDict[tempDict[i]]
     
+
+    return sortedDict, ap
+    
+def fillOnePathLeft(matrix, pathDict, allUnfilledPaths):
+    for k in pathDict:
+        if (len(pathDict[k]) == 1):
+            matrix = fillPath(matrix,k,pathDict[k][0], allUnfilledPaths[k])
+    return matrix
+
+
 def numUnsolved(path):
     i = 0
     for e in path:
@@ -76,18 +89,18 @@ def allDirPaths(path, vis, dim):
             ap[p] = apVal
     return ap
 
-def fillPath(matrix, label, path, pathToFill):
+def fillPath(matrix, label, path, unfilledPath):
     # Actually fill the matrix with the path
     print("filling path ", label)
     print("matrix", matrix)
     print("label", label)
     print("path", path)
-    print("rp", pathToFill)
-    if (len(pathToFill) == len(path)):
+    print("rp", unfilledPath)
+    if (len(unfilledPath) == len(path)):
         for i in range(0,len(path)):
-            if pathToFill[i] != path[i] and isBlank(pathToFill[i]):
-                tempMatrix = insertIntoMatrix(path[i], pathToFill[i], matrix)
-                print(tempMatrix)
+            if unfilledPath[i] != path[i] and isBlank(unfilledPath[i]):
+                matrix = insertIntoMatrix(path[i], unfilledPath[i], matrix)
+                print(matrix)
         
     else:
         print("The path lengths don't match")
@@ -105,9 +118,9 @@ def insertIntoMatrix (monster, position, matrix):
     return matrix
     
 def Dfs(matrix, vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies):
+    possPathsDict, ap = possPaths(matrix, vis, dim)
+    if checkNumMonsters(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies):
+        pass
+    matrix = fillOnePathLeft(matrix,possPathsDict, ap)
+    return matrix
 
-
-    if checkSolved(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies):
-        return matrix
-    else:
-        return "Failed"

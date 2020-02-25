@@ -1,5 +1,5 @@
 
-from allPaths import possPaths
+from allPaths import Dfs
 from bruteForce import randomBruteForce
 import time
 from displayGrid import printBoard
@@ -24,7 +24,10 @@ def readBoard(file, numLines, dim):
     
     return grid, vis, numGhosts, numVampires,numZombies
 
+
+numGhosts, numVampires,numZombies = 0,0,0
 def main():
+    global numGhosts, numVampires,numZombies
     # define the dimentions of the board
     dim = 4
     #read the board from a file
@@ -33,8 +36,10 @@ def main():
     printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
     # Fill in the paths that have 0 visible
     matrix = zeroFill(matrix,dim,vis)
-    # printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
-    possPaths(matrix, vis, dim)
+    printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
+    matrix = Dfs(matrix,vis, dim, numGhosts, numVampires,numZombies)
+    printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
+    
     ######################################################################################
     # Time the solver
     startTime = time.perf_counter()
@@ -58,7 +63,7 @@ TODO:
 * fill in board with brute force
 * check solved
 * record time for solve
-* then do depth first etc and record times
+* then do depth first etc afillOnePathLeftmes
 * Solve paths and if there is only one possible path then solve it.
 * potentially zero sum
 '''
