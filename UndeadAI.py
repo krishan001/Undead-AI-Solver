@@ -34,7 +34,7 @@ def main():
     # Fill in the paths that have 0 visible
     matrix = zeroFill(matrix,dim,vis)
     printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
-    # possPaths(matrix, vis, dim)
+    possPaths(matrix, vis, dim)
     ######################################################################################
     # Time the solver
     startTime = time.perf_counter()

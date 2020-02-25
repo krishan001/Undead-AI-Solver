@@ -6,8 +6,8 @@ def cross(A, B):
 def zeroFill(matrix, dim,vis):
     matrix = labelPaths(matrix,dim)
     rp,lp,up,dp = createPaths(matrix)
-    # allPaths = {**rp, **lp, **up, **dp}
     allPaths = {}
+    # merge all the dictionaries together
     allPaths.update(rp)
     allPaths.update(lp)
     allPaths.update(up)

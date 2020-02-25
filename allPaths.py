@@ -45,25 +45,25 @@ def possPaths(matrix, vis, dim):
     possDown = allDirPaths(dp,vis,dim)
     # print(possRight)
     # Try and fill all possible right paths
-    for label, path in possRight.items():
-        if len(path) != 0:
-            fillPath(matrix, label, path)
+    for label, paths in possRight.items():
+        if len(paths) != 0:
+            matrix = fillPath(matrix, label, paths[0], rp[label])
             # print(path)
     # Try and fill all possible left paths
-    for label, path in possLeft.items():
-        if len(path) != 0:
-            fillPath(matrix, label, path)
-            # print(path)
-    # Try and fill all possible up paths
-    for label, path in possUp.items():
-        if len(path) != 0:
-            fillPath(matrix, label, path)
-            # print(path)
-    # Try and fill all possible down paths
-    for label, path in possDown.items():
-        if len(path) != 0:
-            fillPath(matrix, label, path)
-            # print(path)
+    # for label, path in possLeft.items():
+    #     if len(path) != 0:
+    #         fillPath(matrix, label, path)
+    #         # print(path)
+    # # Try and fill all possible up paths
+    # for label, path in possUp.items():
+    #     if len(path) != 0:
+    #         fillPath(matrix, label, path)
+    #         # print(path)
+    # # Try and fill all possible down paths
+    # for label, path in possDown.items():
+    #     if len(path) != 0:
+    #         fillPath(matrix, label, path)
+    #         # print(path)
 def numUnsolved(path):
     i = 0
     for e in path:
@@ -81,7 +81,30 @@ def allDirPaths(path, vis, dim):
             ap[p] = apVal
     return ap
 
-def fillPath(matrix, label, path):
+def fillPath(matrix, label, path, pathToFill):
     # Actually fill the matrix with the path
     print("filling path ", label)
+    print("matrix", matrix)
+    print("label", label)
+    print("path", path)
+    print("rp", pathToFill)
+    if (len(pathToFill) == len(path)):
+        for i in range(0,len(path)):
+            if pathToFill[i] != path[i] and isBlank(pathToFill[i]):
+                tempMatrix = insertIntoMatrix(path[i], pathToFill[i], matrix)
+                print(matrix)
+        
+    else:
+        print("The path lengths don't match")
+        exit()
+    print("\n\n\n")
+    return matrix
+
+def insertIntoMatrix (monster, position, matrix):
+    for i in range(0,len(matrix)):
+        for j in range(0,len(matrix)):
+            if matrix[i][j] == position:
+                matrix[i][j] = monster
+    
+    return matrix
     
