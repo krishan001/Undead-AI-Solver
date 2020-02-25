@@ -26,7 +26,7 @@ def readBoard(file, numLines, dim):
 
 def main():
     # define the dimentions of the board
-    dim = 5
+    dim = 4
     #read the board from a file
     matrix, vis, numGhosts, numVampires,numZombies = readBoard("board.txt", 1, dim)
     # Print original board
@@ -34,7 +34,7 @@ def main():
     # Fill in the paths that have 0 visible
     matrix = zeroFill(matrix,dim,vis)
     printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
-    possPaths(matrix, vis, dim)
+    # possPaths(matrix, vis, dim)
     ######################################################################################
     # Time the solver
     startTime = time.perf_counter()

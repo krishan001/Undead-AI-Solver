@@ -14,6 +14,7 @@ def allPaths(label, path, unsolved, vis, dim):
     possible = ['g', 'v', 'z']
     possPaths = []
     ogPath = deepcopy(path)
+    # get every combination of monsters for the number of unsolved squares in the path
     allPoss = list(set(product(list(set(possible)),repeat = unsolved)))
     # Find all the possible paths for a particular path
     for i in range(0,len(allPoss)):
@@ -83,3 +84,4 @@ def allDirPaths(path, vis, dim):
 def fillPath(matrix, label, path):
     # Actually fill the matrix with the path
     print("filling path ", label)
+    
