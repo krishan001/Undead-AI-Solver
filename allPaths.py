@@ -3,7 +3,7 @@ from itertools import product
 from copy import deepcopy
 from zeroFill import getLabelVisDict
 from tracePath import countVis, createPaths, checkSolved, checkNumMonsters
-
+from displayGrid import printBoard
 
 def allPaths(label, path, unsolved, vis, dim):
     visDict = getLabelVisDict(vis,dim)
@@ -63,7 +63,7 @@ def possPaths(matrix, vis, dim):
     for i in range(0,len(tempDict)):
         sortedDict[tempDict[i]] = allPossPathsDict[tempDict[i]]
     
-
+    
     return sortedDict, ap
     
 def fillOnePathLeft(matrix, pathDict, allUnfilledPaths):
@@ -91,22 +91,21 @@ def allDirPaths(path, vis, dim):
 
 def fillPath(matrix, label, path, unfilledPath):
     # Actually fill the matrix with the path
-    print("filling path ", label)
-    print("matrix", matrix)
-    print("label", label)
-    print("path", path)
-    print("rp", unfilledPath)
+    # print("filling path: ", label)
+    # print("matrix: ", matrix)
+    # print("label: ", label)
+    # print("path: ", path)
+    # print("Unfilled: ", unfilledPath)
     if (len(unfilledPath) == len(path)):
         for i in range(0,len(path)):
             if unfilledPath[i] != path[i] and isBlank(unfilledPath[i]):
                 matrix = insertIntoMatrix(path[i], unfilledPath[i], matrix)
-                print(matrix)
+                # print(matrix)
         
     else:
         print("The path lengths don't match")
         exit()
-    print("\n\n\n")
-    # If temp matrix doesn't violate constraints then matrix = tempmatrix
+    # print("\n\n\n")
     return matrix
 
 def insertIntoMatrix (monster, position, matrix):
@@ -118,9 +117,16 @@ def insertIntoMatrix (monster, position, matrix):
     return matrix
     
 def Dfs(matrix, vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies):
+    printBoard(matrix,vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies)
     possPathsDict, ap = possPaths(matrix, vis, dim)
-    if checkNumMonsters(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies):
-        pass
     matrix = fillOnePathLeft(matrix,possPathsDict, ap)
+    temp = deepcopy(matrix)
+    for k in possPathsDict:
+        for p in possPathsDict.get(k):
+            temp = fillPath(temp,k,p, ap.get(k))
+            if checkNumMonsters(temp, vis, totalNumGhosts, totalNumVampires,totalNumZombies):
+                return Dfs(temp,vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies)
+        
+    matrix = deepcopy(temp)
     return matrix
 
