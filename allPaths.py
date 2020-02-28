@@ -91,7 +91,7 @@ def allDirPaths(path, vis, dim):
 
 def fillPath(matrix, label, path, unfilledPath):
     # Actually fill the matrix with the path
-    # print("filling path: ", label)
+    print("filling path: ", label)
     # print("matrix: ", matrix)
     # print("label: ", label)
     # print("path: ", path)
@@ -124,9 +124,20 @@ def Dfs(matrix, vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies):
     for k in possPathsDict:
         for p in possPathsDict.get(k):
             temp = fillPath(temp,k,p, ap.get(k))
-            if checkNumMonsters(temp, vis, totalNumGhosts, totalNumVampires,totalNumZombies):
+            numG, numV, numZ = countNumMonsters(temp)
+            if (numG <= totalNumGhosts and numV <= totalNumVampires and numZ <= totalNumZombies):
                 return Dfs(temp,vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies)
-        
     matrix = deepcopy(temp)
     return matrix
 
+def countNumMonsters(matrix):
+    numG, numV, numZ = 0,0,0
+    for row in matrix:
+        for c in row:
+            if c == "g":
+                numG += 1
+            if c == "v":
+                numV += 1
+            if c == "z":
+                numZ += 1
+    return numG, numV, numZ
