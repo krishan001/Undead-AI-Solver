@@ -91,7 +91,7 @@ def allDirPaths(path, vis, dim):
 
 def fillPath(matrix, label, path, unfilledPath):
     # Actually fill the matrix with the path
-    print("filling path: ", label)
+    # print("filling path: ", label)
     # print("matrix: ", matrix)
     # print("label: ", label)
     # print("path: ", path)
@@ -117,19 +117,55 @@ def insertIntoMatrix (monster, position, matrix):
     return matrix
     
 def Dfs(matrix, vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies):
-    printBoard(matrix,vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies)
-    possPathsDict, ap = possPaths(matrix, vis, dim)
-    matrix = fillOnePathLeft(matrix,possPathsDict, ap)
+    # printBoard(matrix,vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies)
     temp = deepcopy(matrix)
-    for k in possPathsDict:
-        for p in possPathsDict.get(k):
-            temp = fillPath(temp,k,p, ap.get(k))
-            numG, numV, numZ = countNumMonsters(temp)
-            if (numG <= totalNumGhosts and numV <= totalNumVampires and numZ <= totalNumZombies):
-                return Dfs(temp,vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies)
-    matrix = deepcopy(temp)
+    possPathsDict, ap = possPaths(matrix, vis, dim)
+    pathKeys= [k for k in possPathsDict]
+    pathValues = [possPathsDict[k] for k in possPathsDict]
+    matrix = choosePaths(pathKeys, pathValues, matrix, vis, dim, ap)
+    # if checkSolved(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies):
+    #     return matrix
+    # return temp
     return matrix
 
+    
+
+
+def choosePaths(pathKeys, pathValues, matrix, vis, dim, ap):
+    valid = True
+    filled = deepcopy(matrix)
+    if pathValues == []:
+        return filled
+    choices = pathValues[0]
+    for i in range(0, len(choices)):
+        # print(i)
+        # print(pathKeys)
+        fits = canAddPath(choices[i], pathKeys[i], filled, vis, dim)
+        # print(fits)
+        if fits:
+            filled = fillPath(filled, pathKeys[i], choices[i], ap.get(pathKeys[i]))
+            possPathsDict, ap = possPaths(filled, vis, dim)
+            pathKeys= [k for k in possPathsDict]
+            pathValues = [possPathsDict[k] for k in possPathsDict]
+            filled = choosePaths(pathKeys, pathValues, filled, vis, dim, ap)
+            return filled
+        else:
+            valid = False
+            print("not valid")
+            return matrix
+
+def canAddPath(choice, key, matrix, vis, dim):
+    possPathsDict, _ = possPaths(matrix, vis, dim)
+    # print(possPathsDict)
+    # print(key)
+    # print("choice: ", choice)
+    # print("values: ",possPathsDict.get(key))
+
+    if possPathsDict.get(key) != None and choice in possPathsDict.get(key):
+        return True
+    else:
+        return False
+    pass
 def countNumMonsters(matrix):
     numG, numV, numZ = 0,0,0
     for row in matrix:

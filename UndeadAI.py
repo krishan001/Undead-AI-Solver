@@ -29,7 +29,7 @@ numGhosts, numVampires,numZombies = 0,0,0
 def main():
     global numGhosts, numVampires,numZombies
     # define the dimentions of the board
-    dim = 5
+    dim = 4
     #read the board from a file
     matrix, vis, numGhosts, numVampires,numZombies = readBoard("board.txt", 1, dim)
     # Print original board
@@ -42,6 +42,8 @@ def main():
     ######################################################################################
     # Time the solver
     startTime = time.perf_counter()
+    # solvedMatrix = False
+    # while solvedMatrix == False:
     solvedMatrix = Dfs(matrix,vis, dim, numGhosts, numVampires,numZombies)
     # solvedMatrix = randomBruteForce(matrix,vis, dim, numGhosts, numVampires,numZombies)
     timeTaken = time.perf_counter() - startTime
