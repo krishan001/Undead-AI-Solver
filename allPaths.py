@@ -123,8 +123,8 @@ def Dfs(matrix, vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies):
     pathKeys= [k for k in possPathsDict]
     pathValues = [possPathsDict[k] for k in possPathsDict]
     matrix = choosePaths(pathKeys, pathValues, matrix, vis, dim, ap)
-    # if checkSolved(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies):
-    #     return matrix
+    if checkSolved(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies):
+        return matrix
     # return temp
     return matrix
 

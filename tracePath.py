@@ -148,7 +148,9 @@ def checkSolved(matrix, vis, numGhosts, numVampires,numZombies):
             if c == "z":
                 solvedZombies += 1
     rp,lp,up,dp = createPaths(matrix)
-    return checkVisible(rp,lp,up,dp,vis) and checkNumMonsters(matrix, vis, numGhosts, numVampires,numZombies)
+    solved = checkVisible(rp,lp,up,dp,vis) and checkNumMonsters(matrix, vis, numGhosts, numVampires,numZombies)
+    print(solved)
+    return solved
 
 def checkNumMonsters(matrix, vis, numGhosts, numVampires,numZombies):
     solvedGhosts, solvedVamps, solvedZombies = 0,0,0
