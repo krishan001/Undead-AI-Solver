@@ -150,30 +150,30 @@ def removeDuplicates(pathKeys, ap, possPathsDict):
 
 def choosePaths(pathKeys, pathValues, matrix, vis, dim, ap):
     print("\n\n")
-    # print("keys",pathKeys)
-    # print(len(pathValues))
+    print("keys",pathKeys)
 
     filled = deepcopy(matrix)
     if pathValues == []:
         return filled
     choices = pathValues[0]
-    # print("choices", choices)
-    label = pathKeys[0]
+    print("choices", choices)
+    print("length of choices", len(choices))
 
-    for i in range(0, len(choices)):
+    label = pathKeys[0]
+    print("filling label", label)
+    for choice in choices:
         filled = deepcopy(matrix)
-        print(choices[i])
-        fits = canAddPath(choices[i], label, filled, vis, dim)
+        print("checking",choice)
+        fits = canAddPath(choice, label, filled, vis, dim)
         if fits and len(pathValues[0]) > 0:
-            # print("filling", choices[i])
-            filled = fillPath(filled, label, choices[i], ap.get(label))
-            pathValues[0].remove(choices[i])
-            filled = choosePaths(pathKeys[1:], pathValues, filled, vis, dim, ap)
+            print("filling", choice)
+            filled = fillPath(filled, label, choice, ap.get(label))
+            pathValues[0].remove(choice)
+            filled = choosePaths(pathKeys[1:], pathValues[1:], filled, vis, dim, ap)
             if (filled != False):
                 return filled
         else:
-            print(choices[i], "Doesn't fit\n")
-            return False
+            print(choice, "Doesn't fit\n")
     return False
 
 def canAddPath(choice, key, matrix, vis, dim):
