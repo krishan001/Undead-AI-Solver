@@ -120,18 +120,21 @@ def Dfs(matrix, vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies):
     # printBoard(matrix,vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies)
     temp = deepcopy(matrix)
     possPathsDict, ap = possPaths(matrix, vis, dim)
+    
     pathKeys= [k for k in possPathsDict]
-    pathKeys = removeDuplicates(pathKeys, ap)
-    pathValues = [possPathsDict[k] for k in possPathsDict]
+    pathKeys = removeDuplicates(pathKeys,ap, possPathsDict)
+
+    pathValues = [possPathsDict[k] for k in possPathsDict if k in pathKeys]
+    
     matrix = choosePaths(pathKeys, pathValues, matrix, vis, dim, ap)
     if checkSolved(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies):
         return matrix
     print("No solution found")
     return temp
 
-def removeDuplicates(pathKeys, ap):
+def removeDuplicates(pathKeys, ap, possPathsDict):
     newKeys = []
-    apKeys= [k for k in ap]
+    apKeys= [k for k in possPathsDict]
     for i in range(0, len(apKeys)):
         for j in range(0, len(apKeys)):
             if (apKeys[i] != apKeys[j]):
@@ -146,27 +149,25 @@ def removeDuplicates(pathKeys, ap):
 
 
 def choosePaths(pathKeys, pathValues, matrix, vis, dim, ap):
-    # print(pathKeys)
+    print("\n\n")
+    # print("keys",pathKeys)
+    # print(len(pathValues))
+
     filled = deepcopy(matrix)
     if pathValues == []:
         return filled
     choices = pathValues[0]
+    # print("choices", choices)
     label = pathKeys[0]
 
     for i in range(0, len(choices)):
         filled = deepcopy(matrix)
-        print("fasdfasdfas", choices[i])
-        print(label)
+        print(choices[i])
         fits = canAddPath(choices[i], label, filled, vis, dim)
         if fits and len(pathValues[0]) > 0:
+            # print("filling", choices[i])
             filled = fillPath(filled, label, choices[i], ap.get(label))
-            # possPathsDict, ap = possPaths(filled, vis, dim)
-            # pathKeys= [k for k in possPathsDict]
-            # pathValues = [possPathsDict[k] for k in possPathsDict]
-            # pathKeys.remove(label)
             pathValues[0].remove(choices[i])
-            # print(pathKeys, "\n")
-            # print(pathValues[0], "\n")
             filled = choosePaths(pathKeys[1:], pathValues, filled, vis, dim, ap)
             if (filled != False):
                 return filled
