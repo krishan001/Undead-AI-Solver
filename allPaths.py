@@ -156,24 +156,35 @@ def choosePaths(pathKeys, pathValues, matrix, vis, dim, ap):
     if pathValues == []:
         return filled
     choices = pathValues[0]
-    print("choices", choices)
-    print("length of choices", len(choices))
+    # print("choices", choices)
+    print("length of choices", pathKeys[0], len(choices))
 
+    ################
+    i = 0
+    ###############
     label = pathKeys[0]
-    print("filling label", label)
+    # print("filling label", label)
     for choice in choices:
+        #######
+        i+=1
+        ########
         filled = deepcopy(matrix)
-        print("checking",choice)
+        # print("checking",choice)
         fits = canAddPath(choice, label, filled, vis, dim)
         if fits and len(pathValues[0]) > 0:
-            print("filling", choice)
+            # print("filling", choice)
             filled = fillPath(filled, label, choice, ap.get(label))
             pathValues[0].remove(choice)
+            print("i loop: ",i)
+
             filled = choosePaths(pathKeys[1:], pathValues[1:], filled, vis, dim, ap)
             if (filled != False):
                 return filled
-        else:
-            print(choice, "Doesn't fit\n")
+        # else:
+        #     print(choice, "Doesn't fit\n")
+    #########
+    print("i: ",i)
+    #########
     return False
 
 def canAddPath(choice, key, matrix, vis, dim):
