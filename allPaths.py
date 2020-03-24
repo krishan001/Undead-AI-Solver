@@ -123,10 +123,22 @@ def Dfs(matrix, vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies):
     
     pathKeys= [k for k in possPathsDict]
     pathKeys,samePaths = removeDuplicateKeys(pathKeys,ap, possPathsDict)
-    pathValues =  getValues(possPathsDict, pathKeys, samePaths)
-    # pathValues = [possPathsDict[k] for k in possPathsDict if k in pathKeys]
-    # for value in pathValues:
-    #     print(value)
+    pathValues =  getValues(possPathsDict, pathKeys, samePaths)#
+
+    # if path values has an element with 1 possibility, fill it in
+    length = len(pathValues)
+    i = 0
+    while (i < length):
+        if (pathValues[i] and len(pathValues[i]) == 1):
+            matrix = fillPath(matrix, pathKeys[i], pathValues[i][0], ap.get(pathKeys[i]))
+            pathKeys.remove(pathKeys[i])
+            pathValues.remove(pathValues[i])
+            length = len(pathKeys)
+            i -=1
+        else:
+            i +=1
+
+
     matrix = choosePaths(pathKeys, pathValues, matrix, vis, dim, ap)
     if checkSolved(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies):
         return matrix
@@ -148,7 +160,6 @@ def removeDuplicateKeys(pathKeys, ap, possPathsDict):
         if (ap[k[0]] == ap[k[1]][::-1]):
             samePaths[k[1]] = k[0]
             apKeys.remove(k[0])
-    print(samePaths)
     return apKeys,samePaths
 
 def getValues(possPathsDict, pathKeys, samePaths):
@@ -160,7 +171,6 @@ def getValues(possPathsDict, pathKeys, samePaths):
             for v in possPathsDict[k]:
                 if (v[::-1] in possPathsDict[oppositeKey]):
                     temp.append(v)
-            print(k, len(temp))
             values.append(temp)
             temp = []
     return values
