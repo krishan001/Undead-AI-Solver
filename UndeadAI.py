@@ -51,7 +51,7 @@ def main():
 
     # Print solved board
     printBoard(solvedMatrix,vis, dim, numGhosts, numVampires,numZombies)
-    print("took  {0:.3f} seconds".format(timeTaken))
+    print("took  {0:.5f} seconds".format(timeTaken))
     
 if __name__ == "__main__":
     main()
