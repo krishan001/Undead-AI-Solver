@@ -200,8 +200,6 @@ def choosePaths(pathKeys, pathValues, matrix, vis, dim, ap):
             print("filling:", choice)
             filled = fillPath(filled, label, choice, ap.get(label))
             pathValues[0].remove(choice)
-  
-
             filled = choosePaths(pathKeys[1:], pathValues[1:], filled, vis, dim, ap)
             if (filled != False):
                 return filled
