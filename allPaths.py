@@ -119,24 +119,28 @@ def insertIntoMatrix (monster, position, matrix):
 def Dfs(matrix, vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies):
     # printBoard(matrix,vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies)
     temp = deepcopy(matrix)
-    possPathsDict, ap = possPaths(matrix, vis, dim)
-    
-    pathKeys= [k for k in possPathsDict]
-    pathKeys,samePaths = removeDuplicateKeys(pathKeys,ap, possPathsDict)
-    pathValues =  getValues(possPathsDict, pathKeys, samePaths)#
+    changed = True
+    while (changed == True):
+        possPathsDict, ap = possPaths(matrix, vis, dim)
+        
+        pathKeys= [k for k in possPathsDict]
+        pathKeys,samePaths = removeDuplicateKeys(pathKeys,ap, possPathsDict)
+        pathValues =  getValues(possPathsDict, pathKeys, samePaths)#
 
-    # if path values has an element with 1 possibility, fill it in
-    length = len(pathValues)
-    i = 0
-    while (i < length):
-        if (pathValues[i] and len(pathValues[i]) == 1):
-            matrix = fillPath(matrix, pathKeys[i], pathValues[i][0], ap.get(pathKeys[i]))
-            pathKeys.remove(pathKeys[i])
-            pathValues.remove(pathValues[i])
-            length = len(pathKeys)
-            i -=1
-        else:
-            i +=1
+        # if path values has an element with 1 possibility, fill it in
+        length = len(pathValues)
+        i = 0
+        while (i < length):
+            if (pathValues[i] and len(pathValues[i]) == 1):
+                changed = True
+                matrix = fillPath(matrix, pathKeys[i], pathValues[i][0], ap.get(pathKeys[i]))
+                pathKeys.remove(pathKeys[i])
+                pathValues.remove(pathValues[i])
+                length = len(pathKeys)
+                i -=1
+            else:
+                changed = False
+                i +=1
 
 
     matrix = choosePaths(pathKeys, pathValues, matrix, vis, dim, ap)
@@ -180,35 +184,39 @@ def getValues(possPathsDict, pathKeys, samePaths):
 
 
 def choosePaths(pathKeys, pathValues, matrix, vis, dim, ap):
+    printBoard(matrix,vis, dim, 2,6,4)
     print("\n\n")
     print("keys",pathKeys)
 
     filled = deepcopy(matrix)
-    if pathValues == []:
+    if (pathValues == [] or checkSolved(matrix, vis, 2,6,4)):
         return filled
     choices = pathValues[0]
     # print("choices", choices)
     print("length of choices:", pathKeys[0], len(choices))
     label = pathKeys[0]
     # print("filling label", label)
-    for choice in choices:
-
+    # for choice in choices:
+    i = 0
+    while (i<len(choices)):
+        choice = choices[i]
         filled = deepcopy(matrix)
         # print("checking",choice)
         fits = canAddPath(choice, label, filled, vis, dim)
         if fits and len(pathValues[0]) > 0:
-            print("filling:", choice)
+            i-=1
+            print("filling:", choice, label)
             filled = fillPath(filled, label, choice, ap.get(label))
             pathValues[0].remove(choice)
             filled = choosePaths(pathKeys[1:], pathValues[1:], filled, vis, dim, ap)
             if (filled != False):
                 return filled
         else:
+            i+=1
             print(choice, "Doesn't fit\n")
-            return False
     if (filled != False):
         matrix = deepcopy(filled)
-    return matrix
+    return False
 
 def canAddPath(choice, key, matrix, vis, dim):
     possPathsDict, _ = possPaths(matrix, vis, dim)
