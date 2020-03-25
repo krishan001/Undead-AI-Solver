@@ -143,7 +143,7 @@ def Dfs(matrix, vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies):
                 i +=1
 
 
-    matrix = choosePaths(pathKeys, pathValues, matrix, vis, dim, ap)
+    matrix = choosePaths(pathKeys, pathValues, matrix, vis, dim, ap, totalNumGhosts, totalNumVampires,totalNumZombies)
     if checkSolved(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies):
         return matrix
     print("No solution found")
@@ -180,35 +180,32 @@ def getValues(possPathsDict, pathKeys, samePaths):
     return values
 
 
-    
 
-
-def choosePaths(pathKeys, pathValues, matrix, vis, dim, ap):
-    printBoard(matrix,vis, dim, 2,6,4)
+def choosePaths(pathKeys, pathValues, matrix, vis, dim, ap, totalNumGhosts, totalNumVampires,totalNumZombies):
+    printBoard(matrix,vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies)
     print("\n\n")
     print("keys",pathKeys)
-
     filled = deepcopy(matrix)
-    if (pathValues == [] or checkSolved(matrix, vis, 2,6,4)):
+    if (pathValues == [] or pathKeys == [] or checkSolved(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies)):
+        print("====================================")
+        printBoard(matrix,vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies)
+        print("====================================")
+        
         return filled
     choices = pathValues[0]
-    # print("choices", choices)
     print("length of choices:", pathKeys[0], len(choices))
     label = pathKeys[0]
-    # print("filling label", label)
-    # for choice in choices:
     i = 0
     while (i<len(choices)):
         choice = choices[i]
         filled = deepcopy(matrix)
-        # print("checking",choice)
         fits = canAddPath(choice, label, filled, vis, dim)
         if fits and len(pathValues[0]) > 0:
             i-=1
             print("filling:", choice, label)
             filled = fillPath(filled, label, choice, ap.get(label))
             pathValues[0].remove(choice)
-            filled = choosePaths(pathKeys[1:], pathValues[1:], filled, vis, dim, ap)
+            filled = choosePaths(pathKeys[1:], pathValues[1:], filled, vis, dim, ap, totalNumGhosts, totalNumVampires,totalNumZombies)
             if (filled != False):
                 return filled
         else:
