@@ -1,4 +1,5 @@
 from tracePath import createPaths
+# from allPaths import isBlank
 def cross(A, B):
     "Cross product of elements in A and elements in B."
     return [a+b for a in A for b in B]
@@ -20,9 +21,9 @@ def zeroFill(matrix, dim,vis):
         for j in range(0,dim):
             if matrix[i][j] in zeroPaths:
                 # check if before mirror or after
-                if beforeMirror(matrix[i][j], allPaths, l):
+                if beforeMirror(matrix[i][j], allPaths, l) and matrix[i][j]!="\\" and matrix[i][j] != "/":
                     matrix[i][j] = 'g'
-                elif not beforeMirror(matrix[i][j], allPaths, l):
+                elif not beforeMirror(matrix[i][j], allPaths, l)and matrix[i][j]!="\\" and matrix[i][j] != "/":
                     matrix[i][j] = 'v'
     return matrix
 
