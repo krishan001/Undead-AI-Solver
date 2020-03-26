@@ -144,6 +144,7 @@ def Dfs(matrix, vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies):
 
 
     matrix = choosePaths(pathKeys, pathValues, matrix, vis, dim, ap, totalNumGhosts, totalNumVampires,totalNumZombies)
+    print(checkSolved(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies))
     if checkSolved(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies):
         return matrix
     print("No solution found")
@@ -179,28 +180,28 @@ def getValues(possPathsDict, pathKeys, samePaths):
             temp = []
     return values
 
-
-
 def choosePaths(pathKeys, pathValues, matrix, vis, dim, ap, totalNumGhosts, totalNumVampires,totalNumZombies):
     printBoard(matrix,vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies)
     print("\n\n")
     print("keys",pathKeys)
     filled = deepcopy(matrix)
-    if (pathValues == [] or pathKeys == [] or checkSolved(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies)):
+
+    if (pathValues == [] or checkSolved(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies)):
         print("====================================")
         printBoard(matrix,vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies)
         print("====================================")
         
         return filled
+
     choices = pathValues[0]
     print("length of choices:", pathKeys[0], len(choices))
     label = pathKeys[0]
     i = 0
-    while (i<len(choices)):
+    while (i < len(choices)):
         choice = choices[i]
         filled = deepcopy(matrix)
         fits = canAddPath(choice, label, filled, vis, dim)
-        if fits and len(pathValues[0]) > 0:
+        if (fits and len(pathValues[0]) > 0):
             i-=1
             print("filling:", choice, label)
             filled = fillPath(filled, label, choice, ap.get(label))
