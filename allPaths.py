@@ -142,11 +142,22 @@ def Dfs(matrix, vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies):
                 changed = False
                 i +=1
 
+    loop = True
+    while (loop):
+        temp = choosePaths(pathKeys, pathValues, matrix, vis, dim, ap, totalNumGhosts, totalNumVampires,totalNumZombies)
+        print("Temp",temp)
+        if temp == False:
+            temp = deepcopy(matrix)
+        else:
+            if (checkSolved(temp, vis, totalNumGhosts, totalNumVampires,totalNumZombies)):
+                print(checkSolved(temp, vis, totalNumGhosts, totalNumVampires,totalNumZombies))
+                loop = False
+                return temp
+            else:
+                temp = deepcopy(matrix)
 
-    matrix = choosePaths(pathKeys, pathValues, matrix, vis, dim, ap, totalNumGhosts, totalNumVampires,totalNumZombies)
-    print(checkSolved(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies))
-    if checkSolved(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies):
-        return matrix
+    # if checkSolved(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies):
+    #     return matrix
     print("No solution found")
     return temp
 

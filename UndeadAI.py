@@ -29,7 +29,7 @@ numGhosts, numVampires,numZombies = 0,0,0
 def main():
     global numGhosts, numVampires,numZombies
     # define the dimentions of the board
-    dim = 4
+    dim = 5
     #read the board from a file
     matrix, vis, numGhosts, numVampires,numZombies = readBoard("board.txt", 1, dim)
     # Print original board
