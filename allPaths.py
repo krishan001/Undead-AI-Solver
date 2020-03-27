@@ -154,7 +154,7 @@ def Dfs(matrix, vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies):
     #             temp = deepcopy(matrix)
     ########################################
     temp = choosePaths(pathKeys, pathValues, matrix, vis, dim, ap, totalNumGhosts, totalNumVampires,totalNumZombies)
-
+    print(checkSolved(temp, vis, totalNumGhosts, totalNumVampires,totalNumZombies))
     ########################################
     # print("No solution found")
     return temp
