@@ -143,21 +143,20 @@ def Dfs(matrix, vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies):
                 i +=1
 
     loop = True
-    j = 0
-    while (loop):
-        temp = choosePaths(pathKeys, pathValues, matrix, vis, dim, ap, totalNumGhosts, totalNumVampires,totalNumZombies)
-        if (temp != False):
-            if (checkSolved(temp, vis, totalNumGhosts, totalNumVampires,totalNumZombies)):
-                print(checkSolved(temp, vis, totalNumGhosts, totalNumVampires,totalNumZombies))
-                loop = False
-                return temp
-            else:
-                temp = deepcopy(matrix)
+    # while (loop):
+    #     temp = choosePaths(pathKeys, pathValues, matrix, vis, dim, ap, totalNumGhosts, totalNumVampires,totalNumZombies)
+    #     if (temp != False):
+    #         if (checkSolved(temp, vis, totalNumGhosts, totalNumVampires,totalNumZombies)):
+    #             print(checkSolved(temp, vis, totalNumGhosts, totalNumVampires,totalNumZombies))
+    #             loop = False
+    #             return temp
+    #         else:
+    #             temp = deepcopy(matrix)
+    ########################################
+    temp = choosePaths(pathKeys, pathValues, matrix, vis, dim, ap, totalNumGhosts, totalNumVampires,totalNumZombies)
 
-    if checkSolved(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies):
-        # Solution found
-        return matrix
-    print("No solution found")
+    ########################################
+    # print("No solution found")
     return temp
 
 def removeDuplicateKeys(pathKeys, ap, possPathsDict):
