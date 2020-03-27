@@ -149,7 +149,7 @@ def checkSolved(matrix, vis, numGhosts, numVampires,numZombies):
                 solvedZombies += 1
     rp,lp,up,dp = createPaths(matrix)
     solved = checkVisible(rp,lp,up,dp,vis) and checkNumMonsters(matrix, vis, numGhosts, numVampires,numZombies)
-    # print(solved)
+    print(solved)
     return solved
 
 def checkNumMonsters(matrix, vis, numGhosts, numVampires,numZombies):

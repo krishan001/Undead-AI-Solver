@@ -143,21 +143,28 @@ def Dfs(matrix, vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies):
                 i +=1
 
     loop = True
+    j = 0
     while (loop):
+        print("matrix", matrix)
+        print("\n")
         temp = choosePaths(pathKeys, pathValues, matrix, vis, dim, ap, totalNumGhosts, totalNumVampires,totalNumZombies)
         print("Temp",temp)
-        if temp == False:
+        if (temp == False):
+            print("asdfasdf")
             temp = deepcopy(matrix)
-        else:
-            if (checkSolved(temp, vis, totalNumGhosts, totalNumVampires,totalNumZombies)):
-                print(checkSolved(temp, vis, totalNumGhosts, totalNumVampires,totalNumZombies))
-                loop = False
-                return temp
-            else:
-                temp = deepcopy(matrix)
+            print("Temp",temp)
 
-    # if checkSolved(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies):
-    #     return matrix
+        else:
+            if (temp != False):
+                if (checkSolved(temp, vis, totalNumGhosts, totalNumVampires,totalNumZombies)):
+                    print(checkSolved(temp, vis, totalNumGhosts, totalNumVampires,totalNumZombies))
+                    loop = False
+                    return temp
+                else:
+                    temp = deepcopy(matrix)
+
+    if checkSolved(matrix, vis, totalNumGhosts, totalNumVampires,totalNumZombies):
+        return matrix
     print("No solution found")
     return temp
 
@@ -205,6 +212,8 @@ def choosePaths(pathKeys, pathValues, matrix, vis, dim, ap, totalNumGhosts, tota
         return filled
 
     choices = pathValues[0]
+    if len(choices) == 0:
+        return False
     print("length of choices:", pathKeys[0], len(choices))
     label = pathKeys[0]
     i = 0
@@ -213,7 +222,8 @@ def choosePaths(pathKeys, pathValues, matrix, vis, dim, ap, totalNumGhosts, tota
         filled = deepcopy(matrix)
         fits = canAddPath(choice, label, filled, vis, dim)
         if (fits and len(pathValues[0]) > 0):
-            i-=1
+            if i > 0:
+                i-=1
             print("filling:", choice, label)
             filled = fillPath(filled, label, choice, ap.get(label))
             pathValues[0].remove(choice)
