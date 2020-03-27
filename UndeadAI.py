@@ -31,7 +31,7 @@ def main():
     # define the dimentions of the board
     dim = 4
     #read the board from a file
-    matrix, vis, numGhosts, numVampires,numZombies = readBoard("4x4.txt", 1, dim)
+    matrix, vis, numGhosts, numVampires,numZombies = readBoard("4x4Easy.txt", 1, dim)
     # Print original board
     printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
     # Fill in the paths that have 0 visible
