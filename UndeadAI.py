@@ -167,7 +167,7 @@ def tracePath(matrix, x, y, d):
 def checkSolved(matrix):
     rp,lp,up,dp = createPaths(matrix)
     solved = checkVisible(rp,lp,up,dp) and checkNumMonsters(matrix)
-    # print(solved)
+    print(solved)
     return solved
 
 def checkNumMonsters(matrix):
@@ -390,7 +390,6 @@ def insertIntoMatrix (monster, position, matrix):
     return matrix
     
 def Dfs(matrix):
-    # printBoard(matrix,vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies)
     temp = deepcopy(matrix)
     changed = True
     while (changed == True):
@@ -416,19 +415,10 @@ def Dfs(matrix):
                 changed = False
                 i +=1
 
-    loop = True
-    # while (loop):
-    #     temp = choosePaths(pathKeys, pathValues, matrix, vis, dim, ap, totalNumGhosts, totalNumVampires,totalNumZombies)
-    #     if (temp != False):
-    #         if (checkSolved(temp, vis, totalNumGhosts, totalNumVampires,totalNumZombies)):
-    #             print(checkSolved(temp, vis, totalNumGhosts, totalNumVampires,totalNumZombies))
-    #             loop = False
-    #             return temp
-    #         else:
-    #             temp = deepcopy(matrix)
     ########################################
     temp = choosePaths(pathKeys, pathValues, matrix, ap)
-    print(checkSolved(temp))
+    # print(checkSolved(temp))
+
     if temp == False:
         return matrix
     ########################################
@@ -465,7 +455,6 @@ def getValues(possPathsDict, pathKeys, samePaths):
     return values
 
 def choosePaths(pathKeys, pathValues, matrix, ap):
-    # printBoard(matrix,vis, dim, totalNumGhosts, totalNumVampires,totalNumZombies)
     # print("\n\n")
     # print("keys",pathKeys)
     filled = deepcopy(matrix)
@@ -482,6 +471,7 @@ def choosePaths(pathKeys, pathValues, matrix, ap):
     i = 0
     while (i < (len(choices))):
         choice = choices[i]
+        # print(label)
         filled = deepcopy(matrix)
         fits = canAddPath(choice, label, filled)
         # Check for the correct number of monsters
@@ -493,6 +483,7 @@ def choosePaths(pathKeys, pathValues, matrix, ap):
 
         if (fits and len(pathValues[0]) > 0):
             # print("filling:", choice, label)
+
             pathValues[0].remove(choice)
             filled = choosePaths(pathKeys[1:], pathValues[1:], tempFilled, ap)
             if i > 0:
@@ -519,33 +510,29 @@ def canAddPath(choice, key, matrix):
 
 
 
-
-
-
-
-
 numGhosts, numVampires,numZombies = 0,0,0
-dim = 4
+dim = 5
 vis = []
 def main():
     global numGhosts, numVampires,numZombies, vis
+
     # define the dimentions of the board
     #read the board from a file
-    matrix, vis, numGhosts, numVampires,numZombies = readBoard("4x4.txt", 1)
-    print(vis)
+    matrix, vis, numGhosts, numVampires,numZombies = readBoard("board.txt", 1)
+
     # Print original board
     printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
+
     # Fill in the paths that have 0 visible
     matrix = zeroFill(matrix)
     printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
-    # printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
     
     ######################################################################################
     # Time the solver
     startTime = time.perf_counter()
-    # solvedMatrix = False
-    # while solvedMatrix == False:
+
     solvedMatrix = Dfs(matrix)
+  
     # solvedMatrix = randomBruteForce(matrix,vis, dim, numGhosts, numVampires,numZombies)
     timeTaken = time.perf_counter() - startTime
     ######################################################################################
@@ -553,6 +540,8 @@ def main():
     # Print solved board
     printBoard(solvedMatrix,vis, dim, numGhosts, numVampires,numZombies)
     print("took  {0:.5f} seconds".format(timeTaken))
+
+
     
 if __name__ == "__main__":
     main()
