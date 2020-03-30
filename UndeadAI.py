@@ -532,8 +532,9 @@ def main():
     startTime = time.perf_counter()
 
     solvedMatrix = Dfs(matrix)
+    print(checkSolved(solvedMatrix))
   
-    # solvedMatrix = randomBruteForce(matrix,vis, dim, numGhosts, numVampires,numZombies)
+    solvedMatrix = randomBruteForce(matrix,vis, dim, numGhosts, numVampires,numZombies)
     timeTaken = time.perf_counter() - startTime
     ######################################################################################
 
