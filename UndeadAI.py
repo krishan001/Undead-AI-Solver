@@ -524,31 +524,6 @@ def canAddPath(choice, key, matrix):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 numGhosts, numVampires,numZombies = 0,0,0
 dim = 4
 vis = []
