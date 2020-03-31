@@ -341,7 +341,6 @@ def fillOnePathLeft(matrix, pathDict, allUnfilledPaths):
             matrix = fillPath(matrix,k,pathDict[k][0], allUnfilledPaths[k])
     return matrix
 
-
 def numUnsolved(path):
     i = 0
     for e in path:
@@ -530,7 +529,7 @@ def main():
     solvedMatrix = Dfs(matrix)
     print(checkSolved(solvedMatrix))
   
-    solvedMatrix = randomBruteForce(matrix,vis, dim, numGhosts, numVampires,numZombies)
+    # solvedMatrix = randomBruteForce(matrix,vis, dim, numGhosts, numVampires,numZombies)
     timeTaken = time.perf_counter() - startTime
     ######################################################################################
 
