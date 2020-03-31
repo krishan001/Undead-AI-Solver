@@ -193,13 +193,9 @@ def cross(A, B):
 def zeroFill(matrix):
     matrix = labelPaths(matrix)
     rp,lp,up,dp = createPaths(matrix)
-    allPaths = {}
     # merge all the dictionaries together
-    allPaths.update(rp)
-    allPaths.update(lp)
-    allPaths.update(up)
-    allPaths.update(dp)
-    
+    allPaths = mergeDicts(rp,lp,up,dp)
+
     pathDict = getLabelVisDict()
     zeroPaths, l = getZeroPaths(pathDict, allPaths)
     for i in range(0,dim):
