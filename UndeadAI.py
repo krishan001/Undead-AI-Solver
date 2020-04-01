@@ -172,7 +172,7 @@ def tracePath(matrix, x, y, d):
 def checkSolved(matrix):
     rp,lp,up,dp = createPaths(matrix)
     solved = checkVisible(rp,lp,up,dp) and checkNumMonsters(matrix)
-    print(solved)
+    # print(solved)
     return solved
 
 def checkNumMonsters(matrix):
@@ -532,35 +532,35 @@ def main():
     #read the board from a file
     l = readBoard("4x4.txt", 4)
     # print(l[0])
-    matrix = l[0][0]
-    vis = l[0][1]
-    numGhosts = l[0][2]
-    numVampires = l[0][3]
-    numZombies = l[0][4]
+
     # matrix, vis, numGhosts, numVampires,numZombies = l
 
-    # Print original board
-    printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
     for i in range(0,len(l)):
+        matrix = l[i][0]
+        vis = l[i][1]
+        numGhosts = l[i][2]
+        numVampires = l[i][3]
+        numZombies = l[i][4]
+        # Print original board
+        # printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
+        # Fill in the paths that have 0 visible
+        matrix = zeroFill(matrix)
+        # printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
         
-    # Fill in the paths that have 0 visible
-    matrix = zeroFill(matrix)
-    printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
+        ######################################################################################
+        # Time the solver
+        startTime = time.perf_counter()
+
+        solvedMatrix = Dfs(matrix)
+        print(checkSolved(solvedMatrix))
     
-    ######################################################################################
-    # Time the solver
-    startTime = time.perf_counter()
+        # solvedMatrix = randomBruteForce(matrix,vis, dim, numGhosts, numVampires,numZombies)
+        timeTaken = time.perf_counter() - startTime
+        ######################################################################################
 
-    solvedMatrix = Dfs(matrix)
-    print(checkSolved(solvedMatrix))
-  
-    # solvedMatrix = randomBruteForce(matrix,vis, dim, numGhosts, numVampires,numZombies)
-    timeTaken = time.perf_counter() - startTime
-    ######################################################################################
-
-    # Print solved board
-    printBoard(solvedMatrix,vis, dim, numGhosts, numVampires,numZombies)
-    print("took  {0:.5f} seconds".format(timeTaken))
+        # Print solved board
+        printBoard(solvedMatrix,vis, dim, numGhosts, numVampires,numZombies)
+        print("took  {0:.5f} seconds\n\n".format(timeTaken))
 
 
     
