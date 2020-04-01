@@ -9,9 +9,12 @@ from copy import deepcopy
 
 def readBoard(file, numLines):
     # Read the board from a text file
+    l = []
     grid = [[]] * dim
     with open(file) as f:
         strings = [f.readline()[0:-1] for x in range(numLines)]
+
+
     for s in strings:
         # take the number visible in each path and remove them from the string
         [numGhosts, numVampires,numZombies] = map(int,s[:3])
@@ -23,9 +26,11 @@ def readBoard(file, numLines):
         for i in range(0,dim):
             grid[i] = list(s[:dim])
             s = s[dim:]
+        l.append([grid, vis, numGhosts, numVampires,numZombies])
 
-    
-    return grid, vis, numGhosts, numVampires,numZombies
+        grid = [[]] * dim
+    # return newgrid, vis, numGhosts, numVampires,numZombies
+    return l
 
 
 def isSquare (matrix): #Check that it is a square matrix
@@ -454,8 +459,11 @@ def choosePaths(pathKeys, pathValues, matrix, ap):
     # print("keys",pathKeys)
     filled = deepcopy(matrix)
 
-    if (pathValues == [] or checkSolved(matrix)):
+    if(checkSolved(matrix)):
         return filled
+
+    elif pathValues == []:
+        return False
 
     choices = pathValues[0]
     if len(choices) == 0:
@@ -471,7 +479,9 @@ def choosePaths(pathKeys, pathValues, matrix, ap):
         fits = canAddPath(choice, label, filled)
         # Check for the correct number of monsters
         tempFilled = fillPath(filled, label, choice, ap.get(label))
+        # printBoard(tempFilled,vis,dim,numGhosts,numVampires, numZombies)
         numG, numV, numZ = countNumMonsters(tempFilled)
+
         if (numG > numGhosts or numV > numVampires or numZ > numZombies):
             # print("Too many monsters")
             fits = False
@@ -503,21 +513,36 @@ def canAddPath(choice, key, matrix):
         return False
     
 
-
+def fullBoard(matrix):
+    full = True
+    for i in range (0,len(matrix)):
+        for j in range(0,len(matrix)):
+            if isBlank(matrix[i][j]):
+                full = False
+                break
+    return full
 
 numGhosts, numVampires,numZombies = 0,0,0
-dim = 5
+dim = 4
 vis = []
 def main():
     global numGhosts, numVampires,numZombies, vis
 
     # define the dimentions of the board
     #read the board from a file
-    matrix, vis, numGhosts, numVampires,numZombies = readBoard("board.txt", 1)
+    l = readBoard("4x4.txt", 4)
+    # print(l[0])
+    matrix = l[0][0]
+    vis = l[0][1]
+    numGhosts = l[0][2]
+    numVampires = l[0][3]
+    numZombies = l[0][4]
+    # matrix, vis, numGhosts, numVampires,numZombies = l
 
     # Print original board
     printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
-
+    for i in range(0,len(l)):
+        
     # Fill in the paths that have 0 visible
     matrix = zeroFill(matrix)
     printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
