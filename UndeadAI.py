@@ -81,7 +81,7 @@ def countVis(path):
 def leftPaths(matrix):
     # Generate left paths and add to dictionary
     paths = {}
-    labels = ["L1", "L2", "L3", "L4", "L5"]
+    labels = ["L1", "L2", "L3", "L4", "L5","L6","L7"]
     for i in range(0,dim):
         paths[labels[i]] = tracePath(matrix,dim-1, i, 3)
     return paths
@@ -89,7 +89,7 @@ def leftPaths(matrix):
 def rightPaths(matrix):
     # Generate right paths and add to dictionary
     paths = {}
-    labels = ["R1", "R2", "R3", "R4", "R5"]
+    labels = ["R1", "R2", "R3", "R4", "R5","R6","R7"]
     for i in range(0,dim):
         paths[labels[i]] = tracePath(matrix, 0, i, 1)
     return paths
@@ -97,7 +97,7 @@ def rightPaths(matrix):
 def upPaths(matrix):
     # Generate upwards paths and add to dictionary
     paths = {}
-    labels = ["U1", "U2", "U3", "U4", "U5"]
+    labels = ["U1", "U2", "U3", "U4", "U5","U6","U7"]
     for i in range(0,dim):
         paths[labels[i]] = tracePath(matrix, i, dim -1, 0)
     return paths
@@ -105,7 +105,7 @@ def upPaths(matrix):
 def downPaths(matrix):
     # Generate downwards paths and add to dictionary
     paths = {}
-    labels = ["D1", "D2", "D3", "D4", "D5"]
+    labels = ["D1", "D2", "D3", "D4", "D5","D6","D7"]
     for i in range(0,dim):
         paths[labels[i]] = tracePath(matrix, i, 0, 2)
     return paths
@@ -450,7 +450,7 @@ def fillOnePathLeft(matrix, pathLabels, pathValues, changed, ap):
             i +=1
     return matrix, pathLabels, pathValues, changed
 
-def choosePaths(pathKeys, pathValues, matrix, ap):
+def choosePaths(pathLabels, pathValues, matrix, ap):
     # print("\n\n")
     # print("keys",pathKeys)
     filled = deepcopy(matrix)
@@ -462,7 +462,7 @@ def choosePaths(pathKeys, pathValues, matrix, ap):
         return False
 
     choices = pathValues[0]
-    label = pathKeys[0]
+    label = pathLabels[0]
     # print("length of choices:", label, len(choices))
     # print("choices", choices)
     i = 0
@@ -484,7 +484,7 @@ def choosePaths(pathKeys, pathValues, matrix, ap):
             # print("filling:", choice, label)
 
             pathValues[0].remove(choice)
-            filled = choosePaths(pathKeys[1:], pathValues[1:], tempFilled, ap)
+            filled = choosePaths(pathLabels[1:], pathValues[1:], tempFilled, ap)
             if i > 0:
                 i-=1  
             
@@ -516,7 +516,7 @@ def fullBoard(matrix):
     return full
 
 numGhosts, numVampires,numZombies = 0,0,0
-dim = 7
+dim = 4
 vis = []
 ZF = True
 def main():
@@ -525,11 +525,12 @@ def main():
     # define the dimentions of the board
     #read the board from a file
     try:
-        l = readBoard("board.txt", 1)
+        l = readBoard("4x4.txt", 4)
     except:
         print("Invalid file")
         exit()
-    print(l)
+
+
     for i in range(0,len(l)):
         print("\n")
         matrix, vis,numGhosts,numVampires,numZombies = l[i]
