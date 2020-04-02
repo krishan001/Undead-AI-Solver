@@ -376,31 +376,19 @@ def Dfs(matrix):
     temp = deepcopy(matrix)
     changed = True
     while (changed == True):
-
         possPathsDict, ap = possPaths(temp)
         pathLabels,samePaths = getKeys(ap, possPathsDict)
         pathValues =  getValues(possPathsDict, pathLabels, samePaths)
-
-        # if path values has an element with 1 possibility, fill it in
-        length = len(pathValues)
-        i = 0
-        while (i < length):
-            if (pathValues[i] and len(pathValues[i]) == 1):
-                changed = True
-                matrix = fillPath(matrix, pathLabels[i], pathValues[i][0], ap.get(pathLabels[i]))
-                pathLabels.remove(pathLabels[i])
-                pathValues.remove(pathValues[i])
-                length = len(pathLabels)
-                i -=1
-            else:
-                changed = False
-                i +=1
+        # if there is only one possible path then fill it in
+        temp,pathLabels, pathValues, changed = fillOnePathLeft(temp,pathLabels, pathValues, changed,ap)
 
     ########################################
     temp = choosePaths(pathLabels, pathValues, matrix, ap)
+
     # print(checkSolved(temp))
 
     if temp == False:
+        print("Solution could not be found")
         return matrix
     ########################################
     return temp
@@ -442,9 +430,22 @@ def getValues(possPathsDict, pathKeys, samePaths):
             temp = []
     return values
 
-def fillOnePathLeft(matrix, pathKeys, pathValues, changed):
-    
-    return matrix, pathKeys, pathValues, changed
+def fillOnePathLeft(matrix, pathLabels, pathValues, changed, ap):
+    # if path values has an element with 1 possibility, fill it in
+    length = len(pathValues)
+    i = 0
+    while (i < length):
+        if (pathValues[i] and len(pathValues[i]) == 1):
+            changed = True
+            matrix = fillPath(matrix, pathLabels[i], pathValues[i][0], ap.get(pathLabels[i]))
+            pathLabels.remove(pathLabels[i])
+            pathValues.remove(pathValues[i])
+            length = len(pathLabels)
+            i -=1
+        else:
+            changed = False
+            i +=1
+    return matrix, pathLabels, pathValues, changed
 
 def choosePaths(pathKeys, pathValues, matrix, ap):
     # print("\n\n")
@@ -530,6 +531,7 @@ def main():
         exit()
 
     for i in range(0,len(l)):
+        print("\n")
         matrix, vis,numGhosts,numVampires,numZombies = l[i]
    
         # Print original board
@@ -542,6 +544,7 @@ def main():
         ######################################################################################
         # Time the solver
         startTime = time.perf_counter()
+        # solvedMatrix = Dfs(matrix)
         try:
             solvedMatrix = Dfs(matrix)
             
@@ -549,7 +552,6 @@ def main():
             print("Invalid Board")
             exit()
             
-        print("\n")
         print(i, checkSolved(solvedMatrix))
     
         # solvedMatrix = randomBruteForce(matrix,vis, dim, numGhosts, numVampires,numZombies)
