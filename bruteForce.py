@@ -24,10 +24,3 @@ def randomBruteForce(solvedMatrix, vis, dim, numGhosts, numVampires,numZombies):
         return solvedMatrix
     else:
         return "Failed"
-
-def setPossibilities(matrix, dim):
-    for i in range(0,dim):
-        for j in range(0,dim):
-            if matrix[i][j] == ".":
-                matrix[i][j] = "gvz"
-    return matrix
