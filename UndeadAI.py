@@ -372,8 +372,12 @@ def insertIntoMatrix (monster, position, matrix):
                 matrix[i][j] = monster
     
     return matrix
-    
-def Dfs(matrix):
+
+    NODES_EXPANDED = 0
+
+NODES_EXPANDED = 0
+
+def Dfs(matrix, node_limit = 100):
     if not ZF:
         matrix = labelPaths(matrix)
     changed = True
@@ -386,7 +390,7 @@ def Dfs(matrix):
 
     temp = deepcopy(matrix)
     ########################################
-    temp = choosePaths(pathLabels, pathValues, matrix, ap)
+    temp = choosePaths(pathLabels, pathValues, matrix, ap, node_limit)
 
     # print(checkSolved(temp))
 
@@ -450,7 +454,12 @@ def fillOnePathLeft(matrix, pathLabels, pathValues, changed, ap):
             i +=1
     return matrix, pathLabels, pathValues, changed
 
-def choosePaths(pathLabels, pathValues, matrix, ap):
+def choosePaths(pathLabels, pathValues, matrix, ap, node_limit):
+    global NODES_EXPANDED
+
+    if NODES_EXPANDED == node_limit:
+        return False
+    NODES_EXPANDED += 1
     filled = deepcopy(matrix)
 
     #if the matrix is solved then return it
@@ -484,7 +493,7 @@ def choosePaths(pathLabels, pathValues, matrix, ap):
             pathValues[0].remove(choice)
             
             # make the recursive call
-            filled = choosePaths(pathLabels[1:], pathValues[1:], tempFilled, ap)
+            filled = choosePaths(pathLabels[1:], pathValues[1:], tempFilled, ap, node_limit)
             if i > 0:
                 i-=1 
             if (filled != False):
