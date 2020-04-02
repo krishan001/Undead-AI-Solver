@@ -58,12 +58,7 @@ def checkVisible(rp,lp,up,dp):
         foundVis.append(countVis(x))
     for x in rp.values():
         foundVis.append(countVis(x))
-    # print("Paths view the correct number:", foundVis == vis)
-    # if foundVis == vis:
-        # print("Right paths: ",rp,"\n")
-        # print("Left paths: ",lp,"\n")
-        # print("Upwards paths: ", up, "\n")
-        # print("D1 paths: ", dp["D1"],"\n")
+
     return foundVis == vis
 
 def countVis(path):
@@ -276,7 +271,6 @@ def getLabelsFromZeroPaths(zeroPaths):
             zeroPaths.remove(e)
     return zeroPaths
 
-
 def allPaths(label, path, unsolved):
     visDict = getLabelVisDict()
     # flag for loops
@@ -362,11 +356,6 @@ def allDirPaths(path):
 
 def fillPath(matrix, label, path, unfilledPath):
     # Actually fill the matrix with the path
-    # print("filling path: ", label)
-    # print("matrix: ", matrix)
-    # print("label: ", label)
-    # print("path: ", path)
-    # print("Unfilled: ", unfilledPath)
     if (len(unfilledPath) == len(path)):
         for i in range(0,len(path)):
             if unfilledPath[i] != path[i] and isBlank(unfilledPath[i]):
@@ -376,7 +365,6 @@ def fillPath(matrix, label, path, unfilledPath):
     else:
         print("The path lengths don't match")
         exit()
-    # print("\n\n\n")
     return matrix
 
 def insertIntoMatrix (monster, position, matrix):
@@ -393,12 +381,10 @@ def Dfs(matrix):
     temp = deepcopy(matrix)
     changed = True
     while (changed == True):
-        possPathsDict, ap = possPaths(matrix)
-        
-        pathKeys= [k for k in possPathsDict]
-        pathKeys,samePaths = removeDuplicateKeys(pathKeys,ap, possPathsDict)
+
+        possPathsDict, ap = possPaths(temp)
+        pathKeys,samePaths = removeDuplicateKeys(ap, possPathsDict)
         pathValues =  getValues(possPathsDict, pathKeys, samePaths)
-        # print("Path values: ", pathValues[2])
 
         # if path values has an element with 1 possibility, fill it in
         length = len(pathValues)
@@ -424,7 +410,8 @@ def Dfs(matrix):
     ########################################
     return temp
 
-def removeDuplicateKeys(pathKeys, ap, possPathsDict):
+def removeDuplicateKeys(ap, possPathsDict):
+    # get all of the path keys
     newKeys = []
     apKeys= [k for k in possPathsDict]
     for i in range(0, len(apKeys)):
@@ -523,7 +510,7 @@ def fullBoard(matrix):
     return full
 
 numGhosts, numVampires,numZombies = 0,0,0
-dim = 5
+dim = 4
 vis = []
 ZF = True
 def main():
@@ -532,7 +519,7 @@ def main():
     # define the dimentions of the board
     #read the board from a file
     try:
-        l = readBoard("board.txt", 3)
+        l = readBoard("4x4.txt", 3)
     except:
         print("Invalid file")
         exit()
