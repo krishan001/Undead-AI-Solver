@@ -390,6 +390,8 @@ def insertIntoMatrix (monster, position, matrix):
     return matrix
     
 def Dfs(matrix):
+    if not ZF:
+        matrix = labelPaths(matrix)
     temp = deepcopy(matrix)
     changed = True
     while (changed == True):
@@ -523,43 +525,49 @@ def fullBoard(matrix):
     return full
 
 numGhosts, numVampires,numZombies = 0,0,0
-dim = 4
+dim = 5
 vis = []
+ZF = True
 def main():
     global numGhosts, numVampires,numZombies, vis
 
     # define the dimentions of the board
     #read the board from a file
-    l = readBoard("4x4.txt", 4)
-    # print(l[0])
-
-    # matrix, vis, numGhosts, numVampires,numZombies = l
+    try:
+        l = readBoard("board.txt", 3)
+    except:
+        print("Invalid file")
+        exit()
 
     for i in range(0,len(l)):
-        matrix = l[i][0]
-        vis = l[i][1]
-        numGhosts = l[i][2]
-        numVampires = l[i][3]
-        numZombies = l[i][4]
+        matrix, vis,numGhosts,numVampires,numZombies = l[i]
+   
         # Print original board
         # printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
         # Fill in the paths that have 0 visible
-        matrix = zeroFill(matrix)
-        # printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
+        if ZF:
+            matrix = zeroFill(matrix)
+            # printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
         
         ######################################################################################
         # Time the solver
         startTime = time.perf_counter()
-
-        solvedMatrix = Dfs(matrix)
-        print(checkSolved(solvedMatrix))
+        try:
+            solvedMatrix = Dfs(matrix)
+            
+        except:
+            print("Invalid Board")
+            exit()
+            
+        print("\n")
+        print(i, checkSolved(solvedMatrix))
     
         # solvedMatrix = randomBruteForce(matrix,vis, dim, numGhosts, numVampires,numZombies)
         timeTaken = time.perf_counter() - startTime
         ######################################################################################
 
         # Print solved board
-        printBoard(solvedMatrix,vis, dim, numGhosts, numVampires,numZombies)
+        # printBoard(solvedMatrix,vis, dim, numGhosts, numVampires,numZombies)
         print("took  {0:.5f} seconds\n\n".format(timeTaken))
 
 
