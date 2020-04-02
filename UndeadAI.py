@@ -331,12 +331,7 @@ def possPaths(matrix):
     
     
     return sortedDict, ap
-    
-def fillOnePathLeft(matrix, pathDict, allUnfilledPaths):
-    for k in pathDict:
-        if (len(pathDict[k]) == 1):
-            matrix = fillPath(matrix,k,pathDict[k][0], allUnfilledPaths[k])
-    return matrix
+
 
 def numUnsolved(path):
     i = 0
@@ -383,8 +378,8 @@ def Dfs(matrix):
     while (changed == True):
 
         possPathsDict, ap = possPaths(temp)
-        pathKeys,samePaths = removeDuplicateKeys(ap, possPathsDict)
-        pathValues =  getValues(possPathsDict, pathKeys, samePaths)
+        pathLabels,samePaths = getKeys(ap, possPathsDict)
+        pathValues =  getValues(possPathsDict, pathLabels, samePaths)
 
         # if path values has an element with 1 possibility, fill it in
         length = len(pathValues)
@@ -392,17 +387,17 @@ def Dfs(matrix):
         while (i < length):
             if (pathValues[i] and len(pathValues[i]) == 1):
                 changed = True
-                matrix = fillPath(matrix, pathKeys[i], pathValues[i][0], ap.get(pathKeys[i]))
-                pathKeys.remove(pathKeys[i])
+                matrix = fillPath(matrix, pathLabels[i], pathValues[i][0], ap.get(pathLabels[i]))
+                pathLabels.remove(pathLabels[i])
                 pathValues.remove(pathValues[i])
-                length = len(pathKeys)
+                length = len(pathLabels)
                 i -=1
             else:
                 changed = False
                 i +=1
 
     ########################################
-    temp = choosePaths(pathKeys, pathValues, matrix, ap)
+    temp = choosePaths(pathLabels, pathValues, matrix, ap)
     # print(checkSolved(temp))
 
     if temp == False:
@@ -410,17 +405,22 @@ def Dfs(matrix):
     ########################################
     return temp
 
-def removeDuplicateKeys(ap, possPathsDict):
-    # get all of the path keys
+def getKeys(ap, possPathsDict):
     newKeys = []
+    # get all of the path keys
     apKeys= [k for k in possPathsDict]
+    # get a list of every combination of keys
     for i in range(0, len(apKeys)):
         for j in range(0, len(apKeys)):
             if (apKeys[i] != apKeys[j]):
                 newKeys.append([apKeys[i],apKeys[j]])
     seen = set()
+
+    # remove combinations if they are the same but in reverse
     [x for x in newKeys if tuple(x[::-1]) not in seen and not seen.add(tuple(x))]
     l = [list(x) for x in list(seen)]
+
+    # create a dictionary of the keys that start and end the same paths
     samePaths = {}
     for k in l:
         if (ap[k[0]] == ap[k[1]][::-1]):
@@ -431,6 +431,7 @@ def removeDuplicateKeys(ap, possPathsDict):
 def getValues(possPathsDict, pathKeys, samePaths):
     values = []
     temp = []
+    # get the paths that for each label
     for k in possPathsDict:
         if k in pathKeys:
             oppositeKey = samePaths[k]
@@ -440,6 +441,10 @@ def getValues(possPathsDict, pathKeys, samePaths):
             values.append(temp)
             temp = []
     return values
+
+def fillOnePathLeft(matrix, pathKeys, pathValues, changed):
+    
+    return matrix, pathKeys, pathValues, changed
 
 def choosePaths(pathKeys, pathValues, matrix, ap):
     # print("\n\n")
