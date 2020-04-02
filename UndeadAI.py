@@ -373,15 +373,15 @@ def insertIntoMatrix (monster, position, matrix):
 def Dfs(matrix):
     if not ZF:
         matrix = labelPaths(matrix)
-    temp = deepcopy(matrix)
     changed = True
     while (changed == True):
-        possPathsDict, ap = possPaths(temp)
+        possPathsDict, ap = possPaths(matrix)
         pathLabels,samePaths = getKeys(ap, possPathsDict)
         pathValues =  getValues(possPathsDict, pathLabels, samePaths)
         # if there is only one possible path then fill it in
-        temp,pathLabels, pathValues, changed = fillOnePathLeft(temp,pathLabels, pathValues, changed,ap)
+        matrix,pathLabels, pathValues, changed = fillOnePathLeft(matrix,pathLabels, pathValues, changed,ap)
 
+    temp = deepcopy(matrix)
     ########################################
     temp = choosePaths(pathLabels, pathValues, matrix, ap)
 
@@ -455,12 +455,10 @@ def choosePaths(pathKeys, pathValues, matrix, ap):
     if(checkSolved(matrix)):
         return filled
 
-    elif pathValues == []:
+    elif pathValues == [] or len(pathValues[0]) == 0:
         return False
 
     choices = pathValues[0]
-    if len(choices) == 0:
-        return False
     label = pathKeys[0]
     # print("length of choices:", label, len(choices))
     # print("choices", choices)
@@ -494,8 +492,7 @@ def choosePaths(pathKeys, pathValues, matrix, ap):
             i+=1
             # print(choice, "Doesn't fit\n")
 
-    if (filled != False):
-        matrix = deepcopy(filled)
+
     return False
 
 def canAddPath(choice, key, matrix):
