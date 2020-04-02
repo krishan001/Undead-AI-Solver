@@ -15,8 +15,11 @@ def readBoard(file, numLines):
 
     for s in strings:
         # take the number visible in each path and remove them from the string
-        [numGhosts, numVampires,numZombies] = map(int,s[:3])
-        s = s[3:]
+        monsters = s.split(",")
+        numGhosts = int(monsters[0])
+        numVampires = int(monsters[1])
+        numZombies = int(monsters[2])
+        s = monsters[3]
         # get the numbers of visible monsters fro each path
         vis = list(map(int,(s[:(dim*4)])))
         s = s[(dim*4):]
@@ -513,7 +516,7 @@ def fullBoard(matrix):
     return full
 
 numGhosts, numVampires,numZombies = 0,0,0
-dim = 4
+dim = 7
 vis = []
 ZF = True
 def main():
@@ -522,11 +525,11 @@ def main():
     # define the dimentions of the board
     #read the board from a file
     try:
-        l = readBoard("4x4.txt", 3)
+        l = readBoard("board.txt", 1)
     except:
         print("Invalid file")
         exit()
-
+    print(l)
     for i in range(0,len(l)):
         print("\n")
         matrix, vis,numGhosts,numVampires,numZombies = l[i]
