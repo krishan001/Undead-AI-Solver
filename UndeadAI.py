@@ -451,52 +451,49 @@ def fillOnePathLeft(matrix, pathLabels, pathValues, changed, ap):
     return matrix, pathLabels, pathValues, changed
 
 def choosePaths(pathLabels, pathValues, matrix, ap):
-    # print("\n\n")
-    # print("keys",pathKeys)
     filled = deepcopy(matrix)
 
-    if(checkSolved(matrix)):
-        return filled
-
+    #if the matrix is solved then return it
+    if checkSolved(filled):
+       return filled
+    
+    # if it is not solved but there are no more values to check, return false
     elif pathValues == [] or len(pathValues[0]) == 0:
         return False
 
     choices = pathValues[0]
     label = pathLabels[0]
-    # print("length of choices:", label, len(choices))
-    # print("choices", choices)
     i = 0
     while (i < (len(choices))):
-        choice = choices[i]
-        # print(label)
+        choice = choices[i]        
+        # reset filled
         filled = deepcopy(matrix)
+
+        # check if the path can be added
         fits = canAddPath(choice, label, filled)
+
         # Check for the correct number of monsters
         tempFilled = fillPath(filled, label, choice, ap.get(label))
-        # printBoard(tempFilled,vis,dim,numGhosts,numVampires, numZombies)
         numG, numV, numZ = countNumMonsters(tempFilled)
-
         if (numG > numGhosts or numV > numVampires or numZ > numZombies):
-            # print("Too many monsters")
             fits = False
-
-        if (fits and len(pathValues[0]) > 0):
-            # print("filling:", choice, label)
-
+        
+        # if it is a valid path
+        if fits and len(pathValues[0]) > 0:
+            # remove the current choice
             pathValues[0].remove(choice)
+            
+            # make the recursive call
             filled = choosePaths(pathLabels[1:], pathValues[1:], tempFilled, ap)
             if i > 0:
-                i-=1  
-            
+                i-=1 
             if (filled != False):
                 return filled
+            
         else:
-            # print(i)
             i+=1
-            # print(choice, "Doesn't fit\n")
-
-
     return False
+
 
 def canAddPath(choice, key, matrix):
     possPathsDict, _ = possPaths(matrix)
