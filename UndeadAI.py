@@ -1,9 +1,7 @@
 
-# from allPaths import Dfs
 from bruteForce import randomBruteForce
 import time
 from displayGrid import printBoard
-# from tracePath import countVis, createPaths, checkSolved, checkNumMonsters
 from itertools import product
 from copy import deepcopy
 
