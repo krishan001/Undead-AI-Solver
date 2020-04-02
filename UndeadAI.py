@@ -527,13 +527,14 @@ numGhosts, numVampires,numZombies = 0,0,0
 dim = 4
 vis = []
 ZF = True
+
 def main():
     global numGhosts, numVampires,numZombies, vis
 
     # define the dimentions of the board
     #read the board from a file
     try:
-        l = readBoard("4x4.txt", 4)
+        l = readBoard("4x4Easy.txt", 10)
     except:
         print("Invalid file")
         exit()
@@ -561,7 +562,7 @@ def main():
             print("Invalid Board")
             exit()
             
-        print(i, checkSolved(solvedMatrix))
+        print(i+1, checkSolved(solvedMatrix))
     
         # solvedMatrix = randomBruteForce(matrix,vis, dim, numGhosts, numVampires,numZombies)
         timeTaken = time.perf_counter() - startTime
