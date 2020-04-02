@@ -375,31 +375,6 @@ def insertIntoMatrix (monster, position, matrix):
 
     NODES_EXPANDED = 0
 
-NODES_EXPANDED = 0
-
-def Dfs(matrix, node_limit = 100):
-    if not ZF:
-        matrix = labelPaths(matrix)
-    changed = True
-    while (changed == True):
-        possPathsDict, ap = possPaths(matrix)
-        pathLabels,samePaths = getKeys(ap, possPathsDict)
-        pathValues =  getValues(possPathsDict, pathLabels, samePaths)
-        # if there is only one possible path then fill it in
-        matrix,pathLabels, pathValues, changed = fillOnePathLeft(matrix,pathLabels, pathValues, changed,ap)
-
-    temp = deepcopy(matrix)
-    ########################################
-    temp = choosePaths(pathLabels, pathValues, matrix, ap, node_limit)
-
-    # print(checkSolved(temp))
-
-    if temp == False:
-        print("Solution could not be found")
-        return matrix
-    ########################################
-    return temp
-
 def getKeys(ap, possPathsDict):
     newKeys = []
     # get all of the path keys
@@ -453,6 +428,33 @@ def fillOnePathLeft(matrix, pathLabels, pathValues, changed, ap):
             changed = False
             i +=1
     return matrix, pathLabels, pathValues, changed
+
+
+NODES_EXPANDED = 0
+
+def Dfs(matrix, node_limit = 100):
+    if not ZF:
+        matrix = labelPaths(matrix)
+    changed = True
+    while (changed == True):
+        possPathsDict, ap = possPaths(matrix)
+        pathLabels,samePaths = getKeys(ap, possPathsDict)
+        pathValues =  getValues(possPathsDict, pathLabels, samePaths)
+        # if there is only one possible path then fill it in
+        matrix,pathLabels, pathValues, changed = fillOnePathLeft(matrix,pathLabels, pathValues, changed,ap)
+
+    temp = deepcopy(matrix)
+    ########################################
+    temp = choosePaths(pathLabels, pathValues, matrix, ap, node_limit)
+
+    # print(checkSolved(temp))
+
+    if temp == False:
+        print("Solution could not be found")
+        return matrix
+    ########################################
+    return temp
+
 
 def choosePaths(pathLabels, pathValues, matrix, ap, node_limit):
     global NODES_EXPANDED
