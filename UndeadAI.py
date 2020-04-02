@@ -466,7 +466,7 @@ def choosePaths(pathLabels, pathValues, matrix, ap):
     i = 0
     while (i < (len(choices))):
         choice = choices[i]        
-        # reset filled
+        # reset filled in case it is False
         filled = deepcopy(matrix)
 
         # check if the path can be added
