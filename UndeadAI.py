@@ -432,7 +432,7 @@ def fillOnePathLeft(matrix, pathLabels, pathValues, changed, ap):
 
 NODES_EXPANDED = 0
 
-def Dfs(matrix, node_limit = 100):
+def Dfs(matrix, node_limit = 200):
     if not ZF:
         matrix = labelPaths(matrix)
     changed = True
@@ -524,7 +524,7 @@ def fullBoard(matrix):
     return full
 
 numGhosts, numVampires,numZombies = 0,0,0
-dim = 5
+dim = 4
 vis = []
 ZF = True
 
@@ -535,27 +535,26 @@ def main():
     # define the dimentions of the board
     #read the board from a file
     try:
-        l = readBoard("5x5Easy.txt", 10)
+        l = readBoard("4x4.txt",1)
     except:
         print("Invalid file")
         exit()
 
 
     for i in range(0,len(l)):
-        print("\n")
+        # print("\n")
         matrix, vis,numGhosts,numVampires,numZombies = l[i]
    
         # Print original board
-        # printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
+        printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
         # Fill in the paths that have 0 visible
         if ZF:
             matrix = zeroFill(matrix)
-            # printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
+            printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
         
         ######################################################################################
         # Time the solver
         startTime = time.perf_counter()
-        # solvedMatrix = Dfs(matrix)
         try:
             solvedMatrix = Dfs(matrix)
             
@@ -563,7 +562,7 @@ def main():
             print("Invalid Board")
             exit()
             
-        print(i+1, checkSolved(solvedMatrix))
+        # print(i+1, checkSolved(solvedMatrix))
         if checkSolved(solvedMatrix) == False:
             notWorkingCounter+=1
     
@@ -572,8 +571,9 @@ def main():
         ######################################################################################
 
         # Print solved board
-        # printBoard(solvedMatrix,vis, dim, numGhosts, numVampires,numZombies)
+        printBoard(solvedMatrix,vis, dim, numGhosts, numVampires,numZombies)
         print("took  {0:.5f} seconds\n\n".format(timeTaken))
+        # print(timeTaken)
 
     print(notWorkingCounter, "puzzles couldn't be solved")
     
