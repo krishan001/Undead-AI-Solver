@@ -1,3 +1,7 @@
+"""
+Parts of this code to display the grid were taken from my supervisor Dr Brandon Bennetts Sudoku Solver
+"""
+
 def uni(s):
     return chr(int(s,16))
 

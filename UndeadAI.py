@@ -533,8 +533,6 @@ ZF = True
 def main():
     global numGhosts, numVampires,numZombies, vis
     notWorkingCounter = 0
-
-    # define the dimentions of the board
     #read the board from a file
     try:
         l = readBoard("4x4.txt",1)
