@@ -432,7 +432,8 @@ def fillOnePathLeft(matrix, pathLabels, pathValues, changed, ap):
 
 NODES_EXPANDED = 0
 
-def Dfs(matrix, node_limit = 200):
+def Dfs(matrix, node_limit = 20):
+    global NODES_EXPANDED
     if not ZF:
         matrix = labelPaths(matrix)
     changed = True
@@ -446,11 +447,12 @@ def Dfs(matrix, node_limit = 200):
     temp = deepcopy(matrix)
     ########################################
     temp = choosePaths(pathLabels, pathValues, matrix, ap, node_limit)
-
+    NODES_EXPANDED = 0
     # print(checkSolved(temp))
 
     if temp == False:
-        print("Solution could not be found")
+        print(0)
+        # print("Solution could not be found")
         return matrix
     ########################################
     return temp
@@ -458,7 +460,7 @@ def Dfs(matrix, node_limit = 200):
 
 def choosePaths(pathLabels, pathValues, matrix, ap, node_limit):
     global NODES_EXPANDED
-
+    # print("Expanded:", NODES_EXPANDED)
     if NODES_EXPANDED == node_limit:
         return False
     NODES_EXPANDED += 1
@@ -544,36 +546,36 @@ def main():
     for i in range(0,len(l)):
         # print("\n")
         matrix, vis,numGhosts,numVampires,numZombies = l[i]
-   
         # Print original board
-        printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
+        # printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
         # Fill in the paths that have 0 visible
         if ZF:
             matrix = zeroFill(matrix)
-            printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
+            # printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
         
         ######################################################################################
         # Time the solver
         startTime = time.perf_counter()
         try:
             solvedMatrix = Dfs(matrix)
+            # solvedMatrix = randomBruteForce(matrix,vis, dim, numGhosts, numVampires,numZombies)
             
         except:
             print("Invalid Board")
-            exit()
+            # exit()
             
         # print(i+1, checkSolved(solvedMatrix))
         if checkSolved(solvedMatrix) == False:
             notWorkingCounter+=1
     
-        # solvedMatrix = randomBruteForce(matrix,vis, dim, numGhosts, numVampires,numZombies)
         timeTaken = time.perf_counter() - startTime
         ######################################################################################
 
         # Print solved board
-        printBoard(solvedMatrix,vis, dim, numGhosts, numVampires,numZombies)
-        print("took  {0:.5f} seconds\n\n".format(timeTaken))
-        # print(timeTaken)
+        # printBoard(solvedMatrix,vis, dim, numGhosts, numVampires,numZombies)
+        # print("took  {0:.5f} seconds\n\n".format(timeTaken))
+        if checkSolved(solvedMatrix) == True:
+            print(timeTaken)
 
     print(notWorkingCounter, "puzzles couldn't be solved")
     
