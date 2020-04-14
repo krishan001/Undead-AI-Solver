@@ -440,14 +440,14 @@ NODES_EXPANDED = 0
 def Dfs(matrix, node_limit = 20):
     global NODES_EXPANDED
     
-    # if zero fill is not used
+    # if zero fill is not used label the paths
     if not ZF:
         matrix = labelPaths(matrix)
 
+    # get the labels and values of the paths that need to be filled in
     changed = True
     while (changed == True):
         possPathsDict, allUnsolvedPaths = possPaths(matrix)
-        print(allUnsolvedPaths)
         pathLabels,samePaths = getKeys(allUnsolvedPaths, possPathsDict)
         pathValues =  getValues(possPathsDict, pathLabels, samePaths)
 
@@ -455,7 +455,7 @@ def Dfs(matrix, node_limit = 20):
         matrix,pathLabels, pathValues, changed = fillOnePathLeft(matrix,pathLabels, pathValues, changed,allUnsolvedPaths)
 
     temp = deepcopy(matrix)
-    ########################################
+    # call the inner recusive function
     temp = choosePaths(pathLabels, pathValues, matrix, allUnsolvedPaths, node_limit)
     NODES_EXPANDED = 0
 
@@ -463,16 +463,17 @@ def Dfs(matrix, node_limit = 20):
         # A solution has not been found
         print(0)
         return matrix
-    ########################################
+
     return temp
 
 
 def choosePaths(pathLabels, pathValues, matrix, allUnsolvedPaths, node_limit):
     global NODES_EXPANDED
-    # print("Expanded:", NODES_EXPANDED)
+
     if NODES_EXPANDED == node_limit:
         return False
     NODES_EXPANDED += 1
+
     filled = deepcopy(matrix)
 
     #if the matrix is solved then return it
@@ -486,9 +487,10 @@ def choosePaths(pathLabels, pathValues, matrix, allUnsolvedPaths, node_limit):
     choices = pathValues[0]
     label = pathLabels[0]
     i = 0
+    # loop through the possible paths to be filled in
     while (i < (len(choices))):
         choice = choices[i]        
-        # reset filled in case it is False
+        # reset filled
         filled = deepcopy(matrix)
 
         # check if the path can be added
@@ -501,17 +503,18 @@ def choosePaths(pathLabels, pathValues, matrix, allUnsolvedPaths, node_limit):
             fits = False
         
         # if it is a valid path
-        if fits and len(pathValues[0]) > 0:
+        if (fits and len(pathValues[0]) > 0):
             # remove the current choice
             pathValues[0].remove(choice)
             
             # make the recursive call
             filled = choosePaths(pathLabels[1:], pathValues[1:], tempFilled, allUnsolvedPaths, node_limit)
-            if i > 0:
+            if (i > 0):
                 i-=1 
             if (filled != False):
                 return filled
-            
+
+        # loop to the next choice
         else:
             i+=1
     return False
