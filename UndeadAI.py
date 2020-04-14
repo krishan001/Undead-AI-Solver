@@ -192,13 +192,18 @@ def cross(A, B):
     return [a+b for a in A for b in B]
 
 def zeroFill(matrix):
+    # labels the squares in the matrix e.g. A1, A2 ...
     matrix = labelPaths(matrix)
+
+    # merge all the dictionaries together 
     rp,lp,up,dp = createPaths(matrix)
-    # merge all the dictionaries together
     allPaths = mergeDicts(rp,lp,up,dp)
 
-    pathDict = getLabelVisDict()
-    zeroPaths, l = getZeroPaths(pathDict, allPaths)
+    # get the paths that have no monsters visible
+    labelVisDict = getLabelVisDict()
+    zeroPaths, l = getZeroPaths(labelVisDict, allPaths)
+
+    # loop through the matrix and fill in the zero paths
     for i in range(0,dim):
         for j in range(0,dim):
             if matrix[i][j] in zeroPaths:
@@ -318,7 +323,7 @@ def mergeDicts(d1,d2,d3,d4):
 # get a dictionary of all the possible paths that could be in the grid
 def possPaths(matrix):
     rp,lp,up,dp = createPaths(matrix)
-    ap = mergeDicts(rp,lp,up,dp)
+    allUnsolvedPaths = mergeDicts(rp,lp,up,dp)
     possRight = allDirPaths(rp)
     possLeft = allDirPaths(lp)
     possUp = allDirPaths(up)
@@ -333,7 +338,7 @@ def possPaths(matrix):
         sortedDict[tempDict[i]] = allPossPathsDict[tempDict[i]]
     
     
-    return sortedDict, ap
+    return sortedDict, allUnsolvedPaths
 
 
 def numUnsolved(path):
@@ -375,7 +380,7 @@ def insertIntoMatrix (monster, position, matrix):
 
     NODES_EXPANDED = 0
 
-def getKeys(ap, possPathsDict):
+def getKeys(allUnsolvedPaths, possPathsDict):
     newKeys = []
     # get all of the path keys
     apKeys= [k for k in possPathsDict]
@@ -393,7 +398,7 @@ def getKeys(ap, possPathsDict):
     # create a dictionary of the keys that start and end the same paths
     samePaths = {}
     for k in l:
-        if (ap[k[0]] == ap[k[1]][::-1]):
+        if (allUnsolvedPaths[k[0]] == allUnsolvedPaths[k[1]][::-1]):
             samePaths[k[1]] = k[0]
             apKeys.remove(k[0])
     return apKeys,samePaths
@@ -412,14 +417,14 @@ def getValues(possPathsDict, pathKeys, samePaths):
             temp = []
     return values
 
-def fillOnePathLeft(matrix, pathLabels, pathValues, changed, ap):
+def fillOnePathLeft(matrix, pathLabels, pathValues, changed, allUnsolvedPaths):
     # if path values has an element with 1 possibility, fill it in
     length = len(pathValues)
     i = 0
     while (i < length):
         if (pathValues[i] and len(pathValues[i]) == 1):
             changed = True
-            matrix = fillPath(matrix, pathLabels[i], pathValues[i][0], ap.get(pathLabels[i]))
+            matrix = fillPath(matrix, pathLabels[i], pathValues[i][0], allUnsolvedPaths.get(pathLabels[i]))
             pathLabels.remove(pathLabels[i])
             pathValues.remove(pathValues[i])
             length = len(pathLabels)
@@ -434,31 +439,35 @@ NODES_EXPANDED = 0
 
 def Dfs(matrix, node_limit = 20):
     global NODES_EXPANDED
+    
+    # if zero fill is not used
     if not ZF:
         matrix = labelPaths(matrix)
+
     changed = True
     while (changed == True):
-        possPathsDict, ap = possPaths(matrix)
-        pathLabels,samePaths = getKeys(ap, possPathsDict)
+        possPathsDict, allUnsolvedPaths = possPaths(matrix)
+        print(allUnsolvedPaths)
+        pathLabels,samePaths = getKeys(allUnsolvedPaths, possPathsDict)
         pathValues =  getValues(possPathsDict, pathLabels, samePaths)
+
         # if there is only one possible path then fill it in
-        matrix,pathLabels, pathValues, changed = fillOnePathLeft(matrix,pathLabels, pathValues, changed,ap)
+        matrix,pathLabels, pathValues, changed = fillOnePathLeft(matrix,pathLabels, pathValues, changed,allUnsolvedPaths)
 
     temp = deepcopy(matrix)
     ########################################
-    temp = choosePaths(pathLabels, pathValues, matrix, ap, node_limit)
+    temp = choosePaths(pathLabels, pathValues, matrix, allUnsolvedPaths, node_limit)
     NODES_EXPANDED = 0
-    # print(checkSolved(temp))
 
     if temp == False:
+        # A solution has not been found
         print(0)
-        # print("Solution could not be found")
         return matrix
     ########################################
     return temp
 
 
-def choosePaths(pathLabels, pathValues, matrix, ap, node_limit):
+def choosePaths(pathLabels, pathValues, matrix, allUnsolvedPaths, node_limit):
     global NODES_EXPANDED
     # print("Expanded:", NODES_EXPANDED)
     if NODES_EXPANDED == node_limit:
@@ -486,7 +495,7 @@ def choosePaths(pathLabels, pathValues, matrix, ap, node_limit):
         fits = canAddPath(choice, label, filled)
 
         # Check for the correct number of monsters
-        tempFilled = fillPath(filled, label, choice, ap.get(label))
+        tempFilled = fillPath(filled, label, choice, allUnsolvedPaths.get(label))
         numG, numV, numZ = countNumMonsters(tempFilled)
         if (numG > numGhosts or numV > numVampires or numZ > numZombies):
             fits = False
@@ -497,7 +506,7 @@ def choosePaths(pathLabels, pathValues, matrix, ap, node_limit):
             pathValues[0].remove(choice)
             
             # make the recursive call
-            filled = choosePaths(pathLabels[1:], pathValues[1:], tempFilled, ap, node_limit)
+            filled = choosePaths(pathLabels[1:], pathValues[1:], tempFilled, allUnsolvedPaths, node_limit)
             if i > 0:
                 i-=1 
             if (filled != False):
@@ -535,7 +544,7 @@ def main():
     notWorkingCounter = 0
     #read the board from a file
     try:
-        l = readBoard("4x4.txt",1)
+        l = readBoard("4x4.txt",10)
     except:
         print("Invalid file")
         exit()
