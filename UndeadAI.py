@@ -554,14 +554,14 @@ def main():
 
 
     for i in range(0,len(l)):
-        # print("\n")
+        print("\n ====================================================")
         matrix, vis,numGhosts,numVampires,numZombies = l[i]
         # Print original board
-        # printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
+        printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
         # Fill in the paths that have 0 visible
         if ZF:
             matrix = zeroFill(matrix)
-            # printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
+            printBoard(matrix,vis, dim, numGhosts, numVampires,numZombies)
         
         ######################################################################################
         # Time the solver
@@ -582,10 +582,10 @@ def main():
         ######################################################################################
 
         # Print solved board
-        # printBoard(solvedMatrix,vis, dim, numGhosts, numVampires,numZombies)
-        # print("took  {0:.5f} seconds\n\n".format(timeTaken))
-        if checkSolved(solvedMatrix) == True:
-            print(timeTaken)
+        printBoard(solvedMatrix,vis, dim, numGhosts, numVampires,numZombies)
+        print("took  {0:.5f} seconds\n\n".format(timeTaken))
+        # if checkSolved(solvedMatrix) == True:
+        #     print(timeTaken)
 
     print(notWorkingCounter, "puzzles couldn't be solved")
     
