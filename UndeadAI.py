@@ -15,6 +15,10 @@ def readBoard(file, numLines):
 
     for s in strings:
         # take the number visible in each path and remove them from the string
+        if (dim == 4 and len(s) != 38) or (dim == 5 and len(s) < 51):
+            print("Incorrect dimention")
+            exit() 
+
         monsters = s.split(",")
         numGhosts = int(monsters[0])
         numVampires = int(monsters[1])
@@ -538,7 +542,7 @@ def fullBoard(matrix):
     return full
 
 numGhosts, numVampires,numZombies = 0,0,0
-dim = 5
+dim = 4
 vis = []
 ZF = True
 
@@ -547,7 +551,7 @@ def main():
     notWorkingCounter = 0
     # read the board from a file with the number of lines you want to read
     try:
-        l = readBoard("5x5Easy.txt",10)
+        l = readBoard("4x4Easy.txt",10)
     except:
         print("Invalid file")
         exit()
