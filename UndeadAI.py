@@ -538,16 +538,16 @@ def fullBoard(matrix):
     return full
 
 numGhosts, numVampires,numZombies = 0,0,0
-dim = 4
+dim = 5
 vis = []
 ZF = True
 
 def main():
     global numGhosts, numVampires,numZombies, vis
     notWorkingCounter = 0
-    #read the board from a file
+    # read the board from a file with the number of lines you want to read
     try:
-        l = readBoard("4x4.txt",10)
+        l = readBoard("5x5Easy.txt",10)
     except:
         print("Invalid file")
         exit()
@@ -584,8 +584,7 @@ def main():
         # Print solved board
         printBoard(solvedMatrix,vis, dim, numGhosts, numVampires,numZombies)
         print("took  {0:.5f} seconds\n\n".format(timeTaken))
-        # if checkSolved(solvedMatrix) == True:
-        #     print(timeTaken)
+
 
     print(notWorkingCounter, "puzzles couldn't be solved")
     
